@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F1AFB6A2BBF00F1000DA23A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7F1AFB692BBF00F1000DA23A /* Alamofire */; };
+		7F1AFB6C2BBF00F1000DA23A /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 7F1AFB6B2BBF00F1000DA23A /* AlamofireDynamic */; };
+		7F1AFB6F2BBF015F000DA23A /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = 7F1AFB6E2BBF015F000DA23A /* RxBlocking */; };
+		7F1AFB712BBF015F000DA23A /* RxBlocking-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 7F1AFB702BBF015F000DA23A /* RxBlocking-Dynamic */; };
+		7F1AFB732BBF015F000DA23A /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 7F1AFB722BBF015F000DA23A /* RxCocoa */; };
+		7F1AFB752BBF015F000DA23A /* RxCocoa-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 7F1AFB742BBF015F000DA23A /* RxCocoa-Dynamic */; };
+		7F1AFB772BBF015F000DA23A /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 7F1AFB762BBF015F000DA23A /* RxRelay */; };
 		7F9C52C22BBEFD55002EC53D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C52C12BBEFD55002EC53D /* AppDelegate.swift */; };
 		7F9C52C42BBEFD55002EC53D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C52C32BBEFD55002EC53D /* SceneDelegate.swift */; };
 		7F9C52C62BBEFD55002EC53D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C52C52BBEFD55002EC53D /* ViewController.swift */; };
@@ -33,6 +40,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F1AFB6A2BBF00F1000DA23A /* Alamofire in Frameworks */,
+				7F1AFB6F2BBF015F000DA23A /* RxBlocking in Frameworks */,
+				7F1AFB772BBF015F000DA23A /* RxRelay in Frameworks */,
+				7F1AFB732BBF015F000DA23A /* RxCocoa in Frameworks */,
+				7F1AFB6C2BBF00F1000DA23A /* AlamofireDynamic in Frameworks */,
+				7F1AFB752BBF015F000DA23A /* RxCocoa-Dynamic in Frameworks */,
+				7F1AFB712BBF015F000DA23A /* RxBlocking-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +100,15 @@
 			dependencies = (
 			);
 			name = iMarvel;
+			packageProductDependencies = (
+				7F1AFB692BBF00F1000DA23A /* Alamofire */,
+				7F1AFB6B2BBF00F1000DA23A /* AlamofireDynamic */,
+				7F1AFB6E2BBF015F000DA23A /* RxBlocking */,
+				7F1AFB702BBF015F000DA23A /* RxBlocking-Dynamic */,
+				7F1AFB722BBF015F000DA23A /* RxCocoa */,
+				7F1AFB742BBF015F000DA23A /* RxCocoa-Dynamic */,
+				7F1AFB762BBF015F000DA23A /* RxRelay */,
+			);
 			productName = iMarvel;
 			productReference = 7F9C52BE2BBEFD55002EC53D /* iMarvel.app */;
 			productType = "com.apple.product-type.application";
@@ -114,6 +137,10 @@
 				Base,
 			);
 			mainGroup = 7F9C52B52BBEFD55002EC53D;
+			packageReferences = (
+				7F1AFB682BBF00F1000DA23A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				7F1AFB6D2BBF015F000DA23A /* XCRemoteSwiftPackageReference "RxSwift" */,
+			);
 			productRefGroup = 7F9C52BF2BBEFD55002EC53D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -299,11 +326,13 @@
 				DEVELOPMENT_TEAM = P63VAPNRN9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iMarvel/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = iMarvel;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -311,9 +340,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.KarimSakr.iMarvel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -327,11 +360,13 @@
 				DEVELOPMENT_TEAM = P63VAPNRN9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iMarvel/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = iMarvel;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -339,9 +374,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.KarimSakr.iMarvel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -367,6 +406,63 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7F1AFB682BBF00F1000DA23A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+		7F1AFB6D2BBF015F000DA23A /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7F1AFB692BBF00F1000DA23A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7F1AFB682BBF00F1000DA23A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		7F1AFB6B2BBF00F1000DA23A /* AlamofireDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7F1AFB682BBF00F1000DA23A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = AlamofireDynamic;
+		};
+		7F1AFB6E2BBF015F000DA23A /* RxBlocking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7F1AFB6D2BBF015F000DA23A /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxBlocking;
+		};
+		7F1AFB702BBF015F000DA23A /* RxBlocking-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7F1AFB6D2BBF015F000DA23A /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = "RxBlocking-Dynamic";
+		};
+		7F1AFB722BBF015F000DA23A /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7F1AFB6D2BBF015F000DA23A /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		7F1AFB742BBF015F000DA23A /* RxCocoa-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7F1AFB6D2BBF015F000DA23A /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = "RxCocoa-Dynamic";
+		};
+		7F1AFB762BBF015F000DA23A /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7F1AFB6D2BBF015F000DA23A /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		7F9C52CA2BBEFD55002EC53D /* iMarvel.xcdatamodeld */ = {
