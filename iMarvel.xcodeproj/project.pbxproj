@@ -30,6 +30,7 @@
 		7F1AFBA32BBF3398000DA23A /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1AFBA22BBF3398000DA23A /* Archive.swift */; };
 		7F1AFBA52BBF3430000DA23A /* Urls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1AFBA42BBF3430000DA23A /* Urls.swift */; };
 		7F1AFBA82BBF3617000DA23A /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1AFBA72BBF3617000DA23A /* String.swift */; };
+		7F1AFBAC2BBF4216000DA23A /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F1AFBAB2BBF4216000DA23A /* Config.plist */; };
 		7F9C52C22BBEFD55002EC53D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C52C12BBEFD55002EC53D /* AppDelegate.swift */; };
 		7F9C52C42BBEFD55002EC53D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C52C32BBEFD55002EC53D /* SceneDelegate.swift */; };
 		7F9C52C92BBEFD55002EC53D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F9C52C72BBEFD55002EC53D /* Main.storyboard */; };
@@ -55,6 +56,7 @@
 		7F1AFBA22BBF3398000DA23A /* Archive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
 		7F1AFBA42BBF3430000DA23A /* Urls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Urls.swift; sourceTree = "<group>"; };
 		7F1AFBA72BBF3617000DA23A /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		7F1AFBAB2BBF4216000DA23A /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		7F9C52BE2BBEFD55002EC53D /* iMarvel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMarvel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F9C52C12BBEFD55002EC53D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7F9C52C32BBEFD55002EC53D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				7F1AFB782BBF075D000DA23A /* Utils */,
 				7F9C52CD2BBEFD57002EC53D /* Assets.xcassets */,
 				7F9C52D22BBEFD57002EC53D /* Info.plist */,
+				7F1AFBAB2BBF4216000DA23A /* Config.plist */,
 			);
 			path = iMarvel;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F1AFBAC2BBF4216000DA23A /* Config.plist in Resources */,
 				7F9C52D12BBEFD57002EC53D /* LaunchScreen.storyboard in Resources */,
 				7F9C52CE2BBEFD57002EC53D /* Assets.xcassets in Resources */,
 				7F9C52C92BBEFD55002EC53D /* Main.storyboard in Resources */,
