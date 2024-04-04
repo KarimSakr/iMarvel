@@ -10,25 +10,31 @@ import Alamofire
 
 enum Router: URLRequestConvertible {
     
-    case newEndpoint
+    case fetchCharacterList
     
-#warning("Add Url")
     var baseUrl: String {
-        return "URL_HERE"
+        return Constants.Url.BaseUrl
     }
     
-#warning("Add endpoint")
     var path: String {
         switch self {
-        case .newEndpoint:
-            return "ENDPOINT_HERE"
+        case .fetchCharacterList:
+            return Constants.Url.Endpoint.fetchCharacterList
         }
     }
     
     var parameters: [String : String] {
+        let timeStamp = Date().timeIntervalSince1970
+        let privateKey = ""
+        let publicKey  = ""
+        var md5Hash = (String(timeStamp) + privateKey + publicKey).md5
         switch self {
         default:
-            return [:]
+            return [
+                "ts": String(timeStamp),
+                "apikey": publicKey,
+                "hash": md5Hash,
+            ]
         }
     }
     
@@ -39,12 +45,12 @@ enum Router: URLRequestConvertible {
         }
     }
     
-#warning("to implement when API Models are ready")
-    //    var type: Decodable.Type {
-    //        switch self {
-    //        default: return String.self
-    //        }
-    //    }
+        var type: Decodable.Type {
+            switch self {
+            case .fetchCharacterList:
+                return Response<Character>.self
+            }
+        }
     
     var body: Data? {
         switch self {
@@ -71,6 +77,18 @@ enum Router: URLRequestConvertible {
         return urlRequest
     }
     
+}
+
+extension Constants {
+    
+    struct Url {
+        
+        static let BaseUrl = "https://gateway.marvel.com:443/v1/public"
+        
+        struct Endpoint {
+            static let fetchCharacterList = ""
+        }
+    }
 }
 
 
