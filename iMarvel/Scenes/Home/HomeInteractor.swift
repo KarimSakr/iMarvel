@@ -11,23 +11,42 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol HomeBusinessLogic {
-  
+    
+    func fetchCharacterList(completion: @escaping () -> Void)
+    
+    func getCharacters() -> [HomeModels.ViewModels.Character]
+    
 }
 
 protocol HomeDataStore {
-  //var name: String { get set }
+    var characters: [HomeModels.ViewModels.Character] { get set }
 }
 
 class HomeInteractor: HomeBusinessLogic, HomeDataStore {
-  var presenter: HomePresentationLogic?
-  //var name: String = ""
-  
-  // MARK: Do something
-  
-  func doSomething(request: HomeModels.Request) {
     
+    var presenter: HomePresentationLogic?
     
-  }
+    var characters: [HomeModels.ViewModels.Character] = [HomeModels.ViewModels.Character]()
+    
+    private var bag = DisposeBag()
+    
+    func getCharacters() -> [HomeModels.ViewModels.Character] {
+        return characters
+    }
+    
+    func fetchCharacterList(completion: @escaping () -> Void) {
+        APIClient.shared.request(.fetchCharacterList)
+            .subscribe { [weak self] (event:Result<Response<[Character]>, Error>) in
+                switch event{
+                case .success(let data):
+                    self?.characters = self?.presenter?.didGetCharacters(data) ?? []
+                    completion()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }.disposed(by: bag)
+    }
 }

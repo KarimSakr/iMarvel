@@ -21,7 +21,24 @@ class HomeViewController: UIViewController, HomeDisplayLogic {
     
     var interactor: HomeBusinessLogic?
     var router: HomeRouter?
-
+    
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 1
+        layout.minimumInteritemSpacing = 1
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
+        let size = (view.width - 4) / 2
+        layout.itemSize = CGSize(width: size, height: size)
+        
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.register(CharacterCardCollectionViewCell.self, forCellWithReuseIdentifier: CharacterCardCollectionViewCell.identifier)
+        collection.alwaysBounceVertical = true
+        collection.showsVerticalScrollIndicator = false
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        return collection
+    }()
+    
 }
 
 //MARK: - Lifecycle
@@ -30,11 +47,19 @@ extension HomeViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        
+       setupCollectionView()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        // constraints here
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 }
 
@@ -54,10 +79,34 @@ extension HomeViewController {
         router.dataStore = interactor
     }
     
-    // setup functions here
+    private func setupCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        view.addSubview(collectionView)
+        interactor?.fetchCharacterList() {
+            self.collectionView.reloadData()
+        }
+    }
 }
 
 //MARK: - functions
 extension HomeViewController {
     // other functions here
+}
+
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return interactor!.getCharacters().count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCardCollectionViewCell.identifier, for: indexPath) as? CharacterCardCollectionViewCell else {
+            fatalError("Failed to dequeue CharacterCardCollectionViewCell in HomeViewController")
+        }
+        
+        cell.configure(with: interactor!.getCharacters()[indexPath.item])
+        return cell
+    }
 }
