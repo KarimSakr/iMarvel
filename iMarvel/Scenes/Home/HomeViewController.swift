@@ -39,6 +39,13 @@ class HomeViewController: UIViewController, HomeDisplayLogic {
         return collection
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
+    
 }
 
 //MARK: - Lifecycle
@@ -47,18 +54,23 @@ extension HomeViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        
-       setupCollectionView()
+        setupViews()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         NSLayoutConstraint.activate([
+            
+            //collectionView constarints
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            // Activity Indicator constraints
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
     }
 }
@@ -79,13 +91,20 @@ extension HomeViewController {
         router.dataStore = interactor
     }
     
-    private func setupCollectionView() {
+    private func setupViews() {
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        view.addSubview(self.activityIndicator)
         view.addSubview(collectionView)
+        
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        
         interactor?.fetchCharacterList() {
             self.collectionView.reloadData()
+            self.activityIndicator.isHidden = true
         }
     }
 }
