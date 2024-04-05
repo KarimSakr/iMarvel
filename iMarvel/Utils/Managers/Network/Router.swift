@@ -25,9 +25,9 @@ enum Router: URLRequestConvertible {
     
     var parameters: [String : String] {
         let timeStamp = Date().timeIntervalSince1970
-        let privateKey = ""
-        let publicKey  = ""
-        var md5Hash = (String(timeStamp) + privateKey + publicKey).md5
+        let privateKey = Bundle().value(ofKey: Constants.BundleKeys.privateKey)
+        let publicKey  = Bundle().value(ofKey: Constants.BundleKeys.apiKey)
+        let md5Hash = (String(timeStamp) + privateKey + publicKey).md5
         switch self {
         default:
             return [
@@ -48,7 +48,7 @@ enum Router: URLRequestConvertible {
         var type: Decodable.Type {
             switch self {
             case .fetchCharacterList:
-                return Response<Character>.self
+                return Response<[Character]>.self
             }
         }
     
@@ -83,10 +83,10 @@ extension Constants {
     
     struct Url {
         
-        static let BaseUrl = "https://gateway.marvel.com:443/v1/public"
+        static let BaseUrl = "https://gateway.marvel.com"
         
         struct Endpoint {
-            static let fetchCharacterList = ""
+            static let fetchCharacterList = "v1/public/characters"
         }
     }
 }

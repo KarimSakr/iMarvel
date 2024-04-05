@@ -31,6 +31,7 @@
 		7F1AFBA52BBF3430000DA23A /* Urls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1AFBA42BBF3430000DA23A /* Urls.swift */; };
 		7F1AFBA82BBF3617000DA23A /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1AFBA72BBF3617000DA23A /* String.swift */; };
 		7F1AFBAC2BBF4216000DA23A /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F1AFBAB2BBF4216000DA23A /* Config.plist */; };
+		7F1AFBAE2BBF433B000DA23A /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1AFBAD2BBF433B000DA23A /* Bundle.swift */; };
 		7F9C52C22BBEFD55002EC53D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C52C12BBEFD55002EC53D /* AppDelegate.swift */; };
 		7F9C52C42BBEFD55002EC53D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C52C32BBEFD55002EC53D /* SceneDelegate.swift */; };
 		7F9C52C92BBEFD55002EC53D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F9C52C72BBEFD55002EC53D /* Main.storyboard */; };
@@ -57,6 +58,7 @@
 		7F1AFBA42BBF3430000DA23A /* Urls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Urls.swift; sourceTree = "<group>"; };
 		7F1AFBA72BBF3617000DA23A /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		7F1AFBAB2BBF4216000DA23A /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
+		7F1AFBAD2BBF433B000DA23A /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		7F9C52BE2BBEFD55002EC53D /* iMarvel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMarvel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F9C52C12BBEFD55002EC53D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7F9C52C32BBEFD55002EC53D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				7F1AFBA72BBF3617000DA23A /* String.swift */,
+				7F1AFBAD2BBF433B000DA23A /* Bundle.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				7F1AFBA52BBF3430000DA23A /* Urls.swift in Sources */,
 				7F1AFB872BBF083E000DA23A /* HomeRouter.swift in Sources */,
 				7F1AFB9B2BBF3174000DA23A /* Thumbnail.swift in Sources */,
+				7F1AFBAE2BBF433B000DA23A /* Bundle.swift in Sources */,
 				7F9C52C22BBEFD55002EC53D /* AppDelegate.swift in Sources */,
 				7F1AFB992BBF3078000DA23A /* Character.swift in Sources */,
 				7F1AFB892BBF083E000DA23A /* HomeViewController.swift in Sources */,
