@@ -11,6 +11,7 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol HomeDisplayLogic: AnyObject {
     
@@ -18,25 +19,40 @@ protocol HomeDisplayLogic: AnyObject {
 
 class HomeViewController: UIViewController, HomeDisplayLogic {
     
-  var interactor: HomeBusinessLogic?
-  var router: HomeRouter?
-
-  private func setup() {
-    let viewController = self
-    let interactor = HomeInteractor()
-    let presenter = HomePresenter()
-    let router = HomeRouter()
-    viewController.interactor = interactor
-    viewController.router = router
-    interactor.presenter = presenter
-    presenter.viewController = viewController
-    router.viewController = viewController
-    router.dataStore = interactor
-  }
-  
-  // MARK: View lifecycle
-  override func viewDidLoad() {
-    super.viewDidLoad()
-  }
-
+    var interactor: HomeBusinessLogic?
+    var router: HomeRouter?
+    
+    private var bag = DisposeBag()
+    
+    private func setup() {
+        let viewController = self
+        let interactor = HomeInteractor()
+        let presenter = HomePresenter()
+        let router = HomeRouter()
+        viewController.interactor = interactor
+        viewController.router = router
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+        router.viewController = viewController
+        router.dataStore = interactor
+    }
+    
+    // MARK: View lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setup()
+        
+        APIClient.shared.request(.fetchCharacterList)
+            .subscribe { (event:Result<Response<[Character]>, Error>) in
+                
+                switch event {
+                case .success(let success):
+                    print(success)
+                case .failure(let failure):
+                    print(failure.localizedDescription)
+                }
+                
+            }.disposed(by: bag)
+    }
+    
 }

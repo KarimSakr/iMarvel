@@ -9,4 +9,8 @@ import Foundation
 
 struct Constants {
     
+    struct BundleKeys {
+        static let apiKey = "apiKey"
+        static let privateKey = "privateKey"
+    }
 }
