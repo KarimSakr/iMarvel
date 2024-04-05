@@ -21,8 +21,25 @@ class HomeViewController: UIViewController, HomeDisplayLogic {
     
     var interactor: HomeBusinessLogic?
     var router: HomeRouter?
+
+}
+
+//MARK: - Lifecycle
+extension HomeViewController {
     
-    private var bag = DisposeBag()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setup()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // constraints here
+    }
+}
+
+//MARK: - setup
+extension HomeViewController {
     
     private func setup() {
         let viewController = self
@@ -37,22 +54,10 @@ class HomeViewController: UIViewController, HomeDisplayLogic {
         router.dataStore = interactor
     }
     
-    // MARK: View lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setup()
-        
-        APIClient.shared.request(.fetchCharacterList)
-            .subscribe { (event:Result<Response<[Character]>, Error>) in
-                
-                switch event {
-                case .success(let success):
-                    print(success)
-                case .failure(let failure):
-                    print(failure.localizedDescription)
-                }
-                
-            }.disposed(by: bag)
-    }
-    
+    // setup functions here
+}
+
+//MARK: - functions
+extension HomeViewController {
+    // other functions here
 }
