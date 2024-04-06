@@ -15,7 +15,9 @@ import RxSwift
 
 protocol HomeBusinessLogic {
     
-    func fetchCharacterList(completion: @escaping () -> Void)
+    func fetchCharacterList(skip:Int, limit:Int, completion: @escaping () -> Void)
+    
+    func fetchCharacterIfNeeded(index: Int, completion: @escaping () -> Void)
     
     func getCharacters() -> [HomeModels.ViewModels.Character]
     
@@ -31,22 +33,35 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
     
     var characters: [HomeModels.ViewModels.Character] = [HomeModels.ViewModels.Character]()
     
+    private var elementsLeft: Int = 0
+    
     private var bag = DisposeBag()
     
     func getCharacters() -> [HomeModels.ViewModels.Character] {
         return characters
     }
     
-    func fetchCharacterList(completion: @escaping () -> Void) {
-        APIClient.shared.request(.fetchCharacterList)
+    func fetchCharacterList(skip:Int, limit:Int, completion: @escaping () -> Void) {
+        APIClient.shared.request(.fetchCharacterList(skip: skip, limit: limit))
             .subscribe { [weak self] (event:Result<Response<[Character]>, Error>) in
+                guard let self = self else { return }
+                
                 switch event{
                 case .success(let data):
-                    self?.characters = self?.presenter?.didGetCharacters(data) ?? []
+                    self.elementsLeft = data.data.total - self.characters.count
+                    self.characters.append(contentsOf: self.presenter?.didGetCharacters(data) ?? [])
                     completion()
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }.disposed(by: bag)
+    }
+    
+    func fetchCharacterIfNeeded(index: Int, completion: @escaping () -> Void) {
+        guard index == characters.count - 3, elementsLeft != 0 else { return }
+        
+        fetchCharacterList(skip: characters.count, limit: 20) {
+            completion()
+        }
     }
 }

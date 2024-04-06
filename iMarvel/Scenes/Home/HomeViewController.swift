@@ -102,7 +102,7 @@ extension HomeViewController {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         
-        interactor?.fetchCharacterList() {
+        interactor?.fetchCharacterList(skip: 0, limit: 20) {
             self.collectionView.reloadData()
             self.activityIndicator.isHidden = true
         }
@@ -115,6 +115,7 @@ extension HomeViewController {
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return interactor!.getCharacters().count
     }
@@ -127,5 +128,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         cell.configure(with: interactor!.getCharacters()[indexPath.item])
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        interactor!.fetchCharacterIfNeeded(index: indexPath.item) {
+            collectionView.reloadData()
+        }
     }
 }

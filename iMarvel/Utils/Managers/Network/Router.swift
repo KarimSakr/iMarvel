@@ -10,7 +10,7 @@ import Alamofire
 
 enum Router: URLRequestConvertible {
     
-    case fetchCharacterList
+    case fetchCharacterList(skip: Int, limit: Int)
     
     var baseUrl: String {
         return Constants.Url.BaseUrl
@@ -29,11 +29,13 @@ enum Router: URLRequestConvertible {
         let publicKey  = Bundle().value(ofKey: Constants.BundleKeys.apiKey)
         let md5Hash = (String(timeStamp) + privateKey + publicKey).md5
         switch self {
-        default:
+        case .fetchCharacterList(let skip, let limit):
             return [
-                "ts": String(timeStamp),
+                "limit" : String(limit),
+                "offset": String(skip),
+                "ts"    : String(timeStamp),
                 "apikey": publicKey,
-                "hash": md5Hash,
+                "hash"  : md5Hash,
             ]
         }
     }
