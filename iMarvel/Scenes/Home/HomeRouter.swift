@@ -33,6 +33,8 @@ class HomeRouter: NSObject, HomeRoutingLogic, HomeDataPassing {
         
         vc.id = id ?? 0
         
+        vc.title = cell?.characterNameLabel.text
+        
         viewController?.navigationController?.pushViewController(vc, animated: true)
 
     }

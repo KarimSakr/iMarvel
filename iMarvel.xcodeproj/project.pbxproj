@@ -47,6 +47,7 @@
 		7FD9920F2BC171F100AC62B9 /* DetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD9920A2BC171F100AC62B9 /* DetailsModels.swift */; };
 		7FD992102BC171F100AC62B9 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD9920B2BC171F100AC62B9 /* DetailsViewController.swift */; };
 		7FD992112BC171F100AC62B9 /* DetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD9920C2BC171F100AC62B9 /* DetailsInteractor.swift */; };
+		7FD992132BC1A4E800AC62B9 /* CoverCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD992122BC1A4E800AC62B9 /* CoverCollectionViewCell.swift */; };
 		EF0A0CEF2BC1632A00348D8C /* SnackBar in Frameworks */ = {isa = PBXBuildFile; productRef = EF0A0CEE2BC1632A00348D8C /* SnackBar */; };
 		EF0A0CF22BC1635300348D8C /* AppSnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0A0CF12BC1635300348D8C /* AppSnackBar.swift */; };
 /* End PBXBuildFile section */
@@ -85,6 +86,7 @@
 		7FD9920A2BC171F100AC62B9 /* DetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsModels.swift; sourceTree = "<group>"; };
 		7FD9920B2BC171F100AC62B9 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		7FD9920C2BC171F100AC62B9 /* DetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsInteractor.swift; sourceTree = "<group>"; };
+		7FD992122BC1A4E800AC62B9 /* CoverCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverCollectionViewCell.swift; sourceTree = "<group>"; };
 		EF0A0CF12BC1635300348D8C /* AppSnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSnackBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -236,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				7F1AFBB22BC007CF000DA23A /* CharacterCardCollectionViewCell.swift */,
+				7FD992122BC1A4E800AC62B9 /* CoverCollectionViewCell.swift */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				7F1AFB992BBF3078000DA23A /* Character.swift in Sources */,
 				7F1AFB892BBF083E000DA23A /* HomeViewController.swift in Sources */,
 				7F1AFB852BBF083E000DA23A /* HomePresenter.swift in Sources */,
+				7FD992132BC1A4E800AC62B9 /* CoverCollectionViewCell.swift in Sources */,
 				7F9C52C42BBEFD55002EC53D /* SceneDelegate.swift in Sources */,
 				7F1AFB962BBF2F33000DA23A /* Pagination.swift in Sources */,
 				7FD9920E2BC171F100AC62B9 /* DetailsRouter.swift in Sources */,

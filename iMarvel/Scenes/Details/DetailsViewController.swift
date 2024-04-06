@@ -22,6 +22,136 @@ class DetailsViewController: UIViewController, DetailsDisplayLogic {
     var router: DetailsRouter?
     
     var id: Int?
+    
+    private let boldFontSize: CGFloat = 20.0
+    
+    lazy var scrollView: UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        return scroll
+    }()
+    
+    lazy var scrollStackViewContainer: UIStackView = {
+        let container = UIStackView()
+        container.axis = .vertical
+        container.translatesAutoresizingMaskIntoConstraints = false
+        return container
+    }()
+    
+    lazy var characterIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.tintColor = .white
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.backgroundColor = .secondarySystemBackground
+         return imageView
+    }()
+    
+    lazy var idLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .secondaryLabel
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 6
+        return label
+    }()
+    
+    lazy var comicsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Comics:"
+        label.font = .boldSystemFont(ofSize: boldFontSize)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var comicsCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemBackground
+        
+        collectionView.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
+        
+        collectionView.alwaysBounceHorizontal = true
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
+    lazy var eventsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Events:"
+        label.font = .boldSystemFont(ofSize: boldFontSize)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var eventsCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemBackground
+        
+        collectionView.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
+        
+        collectionView.alwaysBounceHorizontal = true
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
+    lazy var storiesLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Stories:"
+        label.font = .boldSystemFont(ofSize: boldFontSize)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var storiesCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemBackground
+        
+        collectionView.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
+        
+        collectionView.alwaysBounceHorizontal = true
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
+    lazy var seriesLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Series:"
+        label.font = .boldSystemFont(ofSize: boldFontSize)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var seriesCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemBackground
+        
+        collectionView.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
+        
+        collectionView.alwaysBounceHorizontal = true
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
 }
 
 // MARK: View lifecycle
@@ -30,7 +160,87 @@ extension DetailsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        view.backgroundColor = .blue
+        addSubviews()
+        setupDelegatesAndDataSource()
+        view.backgroundColor = .systemBackground
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let iconSize = view.width / 4
+        
+        NSLayoutConstraint.activate([
+            
+            // scrollView constraints
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            
+            // scrollView constraints
+            scrollStackViewContainer.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor),
+            scrollStackViewContainer.bottomAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.bottomAnchor),
+            scrollStackViewContainer.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor),
+            scrollStackViewContainer.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor),
+            scrollStackViewContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            scrollStackViewContainer.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
+            
+            // characterIcon constraints
+            characterIcon.widthAnchor.constraint(equalToConstant: iconSize),
+            characterIcon.heightAnchor.constraint(equalToConstant: iconSize),
+            characterIcon.topAnchor.constraint(equalTo: scrollStackViewContainer.topAnchor, constant: 5),
+            characterIcon.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor, constant: 5),
+            
+            // idLabel constraints
+            idLabel.leadingAnchor.constraint(equalTo: characterIcon.trailingAnchor, constant: 5),
+            idLabel.topAnchor.constraint(equalTo: scrollStackViewContainer.topAnchor, constant: 5),
+            
+            // descriptionLabel constraints
+            descriptionLabel.topAnchor.constraint(equalTo: characterIcon.bottomAnchor, constant: 5),
+            descriptionLabel.leadingAnchor.constraint(equalTo: characterIcon.trailingAnchor, constant: 5),
+            descriptionLabel.trailingAnchor.constraint(equalTo: scrollStackViewContainer.trailingAnchor, constant: 5),
+            
+            // comicsLabel constraints
+            comicsLabel.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor, constant: 5),
+            comicsLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20),
+            
+            // comicsCollection constraints
+            comicsCollection.topAnchor.constraint(equalTo: comicsLabel.bottomAnchor, constant: 5),
+            comicsCollection.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor),
+            comicsCollection.trailingAnchor.constraint(equalTo: scrollStackViewContainer.trailingAnchor),
+            comicsCollection.heightAnchor.constraint(equalToConstant: 210),
+            
+            // eventsLabel constraints
+            eventsLabel.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor, constant: 5),
+            eventsLabel.topAnchor.constraint(equalTo: comicsCollection.bottomAnchor, constant: 20),
+            
+            // eventsCollection constraints
+            eventsCollection.topAnchor.constraint(equalTo: eventsLabel.bottomAnchor, constant: 5),
+            eventsCollection.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor),
+            eventsCollection.trailingAnchor.constraint(equalTo: scrollStackViewContainer.trailingAnchor),
+            eventsCollection.heightAnchor.constraint(equalToConstant: 210),
+            
+            // storiesLabel constraints
+            storiesLabel.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor, constant: 5),
+            storiesLabel.topAnchor.constraint(equalTo: eventsCollection.bottomAnchor, constant: 20),
+            
+            // storiesCollection constraints
+            storiesCollection.topAnchor.constraint(equalTo: storiesLabel.bottomAnchor, constant: 5),
+            storiesCollection.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor),
+            storiesCollection.trailingAnchor.constraint(equalTo: scrollStackViewContainer.trailingAnchor),
+            storiesCollection.heightAnchor.constraint(equalToConstant: 210),
+            
+            // seriesLabel constraints
+            seriesLabel.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor, constant: 5),
+            seriesLabel.topAnchor.constraint(equalTo: storiesCollection.bottomAnchor, constant: 20),
+            
+            // seriesCollection constraints
+            seriesCollection.topAnchor.constraint(equalTo: seriesLabel.bottomAnchor, constant: 5),
+            seriesCollection.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor),
+            seriesCollection.trailingAnchor.constraint(equalTo: scrollStackViewContainer.trailingAnchor),
+            seriesCollection .heightAnchor.constraint(equalToConstant: 210),
+        ])
     }
 }
 
@@ -48,5 +258,66 @@ extension DetailsViewController {
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataStore = interactor
+    }
+    
+    private func addSubviews() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollStackViewContainer)
+        scrollStackViewContainer.addSubview(characterIcon)
+        scrollStackViewContainer.addSubview(idLabel)
+        scrollStackViewContainer.addSubview(descriptionLabel)
+        scrollStackViewContainer.addSubview(comicsLabel)
+        scrollStackViewContainer.addSubview(comicsCollection)
+        scrollStackViewContainer.addSubview(eventsLabel)
+        scrollStackViewContainer.addSubview(eventsCollection)
+        scrollStackViewContainer.addSubview(storiesLabel)
+        scrollStackViewContainer.addSubview(storiesCollection)
+        scrollStackViewContainer.addSubview(seriesLabel)
+        scrollStackViewContainer.addSubview(seriesCollection)
+    }
+    
+    private func setupDelegatesAndDataSource() {
+        comicsCollection.delegate = self
+        eventsCollection.delegate = self
+        storiesCollection.delegate = self
+        seriesCollection.delegate = self
+        
+        comicsCollection.dataSource = self
+        eventsCollection.dataSource = self
+        storiesCollection.dataSource = self
+        seriesCollection.dataSource = self
+    }
+}
+
+//MARK: - UICollectionViewDelegate | UICollectionViewDelegate
+extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell else {
+            fatalError("Failed to dequeue CoverCollectionViewCell in DetailViewController")
+        }
+        
+        //configure
+        return cell
+        
+    }
+    
+}
+
+//MARK: - UICollectionViewDelegateFlowLayout
+extension DetailsViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: 140, height: 200)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
     }
 }

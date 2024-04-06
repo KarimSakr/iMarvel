@@ -14,7 +14,7 @@ class CharacterCardCollectionViewCell: UICollectionViewCell {
     
     var characterId: Int = 0
     
-    let characterThumbnail: UIImageView = {
+    private let characterThumbnail: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.tintColor = .white
@@ -22,7 +22,7 @@ class CharacterCardCollectionViewCell: UICollectionViewCell {
          return imageView
     }()
     
-    private let characterNameLabel: UILabel = {
+    let characterNameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         label.textAlignment = .center
