@@ -32,7 +32,7 @@ class CharacterCardCollectionViewCell: UICollectionViewCell {
     func configure(with character: HomeModels.ViewModels.Character) {
         
         characterNameLabel.text = character.name
-        characterThumbnail.sd_setImage(with: URL(string: character.thumbnailUrl))
+        characterThumbnail.sd_setImage(with: URL(string: character.thumbnailUrl), placeholderImage: nil, options:[.scaleDownLargeImages])
         setupUI()
     }
     
@@ -71,7 +71,9 @@ extension CharacterCardCollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        characterThumbnail.sd_cancelCurrentImageLoad()
         characterThumbnail.image = nil
+        characterNameLabel.text = nil
     }
 }
 
