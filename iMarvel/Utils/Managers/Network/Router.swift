@@ -10,7 +10,8 @@ import Alamofire
 
 enum Router: URLRequestConvertible {
     
-    case fetchCharacterList(skip: Int, limit: Int)
+    case fetchCharacterList(skip: Int, limit: Int),
+         fetchDetails(id: Int)
     
     var baseUrl: String {
         return Constants.Url.BaseUrl
@@ -20,6 +21,9 @@ enum Router: URLRequestConvertible {
         switch self {
         case .fetchCharacterList:
             return Constants.Url.Endpoint.fetchCharacterList
+            
+        case.fetchDetails(let id):
+            return Constants.Url.Endpoint.fetchCharacterList + "/\(id)"
         }
     }
     
@@ -37,6 +41,13 @@ enum Router: URLRequestConvertible {
                 "apikey": publicKey,
                 "hash"  : md5Hash,
             ]
+            
+        case .fetchDetails:
+            return [
+                "ts"    : String(timeStamp),
+                "apikey": publicKey,
+                "hash"  : md5Hash,
+            ]
         }
     }
     
@@ -47,12 +58,14 @@ enum Router: URLRequestConvertible {
         }
     }
     
-        var type: Decodable.Type {
-            switch self {
-            case .fetchCharacterList:
-                return Response<[Character]>.self
-            }
+    var type: Decodable.Type {
+        switch self {
+        case .fetchCharacterList:
+            return Response<[Character]>.self
+        case .fetchDetails:
+            return Response<[Character]>.self
         }
+    }
     
     var body: Data? {
         switch self {

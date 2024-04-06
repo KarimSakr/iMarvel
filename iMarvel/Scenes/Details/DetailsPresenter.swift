@@ -13,11 +13,22 @@
 import UIKit
 
 protocol DetailsPresentationLogic {
-    
+    func didGetCharacters(_ model: Response<[Character]>) -> DetailsModels.ViewModels.Character
 }
 
 class DetailsPresenter: DetailsPresentationLogic {
     weak var viewController: DetailsDisplayLogic?
     
-    
+    func didGetCharacters(_ model: Response<[Character]>) -> DetailsModels.ViewModels.Character {
+        guard model.code == 200, let characters = model.data.results else {
+            return DetailsModels.ViewModels.Character(name: "", id: "", thumbnailUrl: "", desription: "")
+        }
+        
+        guard let character = characters.first else { return DetailsModels.ViewModels.Character(name: "", id: "", thumbnailUrl: "", desription: "") }
+        
+        return DetailsModels.ViewModels.Character(name: character.name,
+                                                  id: String(character.id),
+                                                  thumbnailUrl: character.thumbnail.path + "." + character.thumbnail.ext,
+                                                  desription: character.description)
+    }
 }

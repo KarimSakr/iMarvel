@@ -11,20 +11,40 @@
 //
 
 import UIKit
-
+import RxSwift
 protocol DetailsBusinessLogic {
+    func fetchDetails(id: Int, completion: @escaping () -> Void)
     
+    func getCharacter() -> DetailsModels.ViewModels.Character
 }
 
 protocol DetailsDataStore {
-    
+    var character: DetailsModels.ViewModels.Character { get set}
 }
 
 class DetailsInteractor: DetailsBusinessLogic, DetailsDataStore {
     var presenter: DetailsPresentationLogic?
     
-    func doSomething(request: DetailsModels.Request) {
-        
-        
+    private var bag = DisposeBag()
+    
+    var character = DetailsModels.ViewModels.Character(name: "", id: "", thumbnailUrl: "", desription: "")
+    
+    func fetchDetails(id: Int, completion: @escaping () -> Void) {
+        APIClient.shared.request(.fetchDetails(id: id))
+            .subscribe { [weak self] (event:Result<Response<[Character]>,Error>) in
+                guard let self = self else { return }
+                guard let presenter = presenter else { return }
+                switch event {
+                case .success(let model):
+                    character = presenter.didGetCharacters(model)
+                    completion()
+                case .failure(let error):
+                    break // handle error
+                }
+            }.disposed(by: bag)
+    }
+    
+    func getCharacter() -> DetailsModels.ViewModels.Character {
+        return character
     }
 }

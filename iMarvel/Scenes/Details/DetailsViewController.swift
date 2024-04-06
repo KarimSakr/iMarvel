@@ -11,6 +11,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 protocol DetailsDisplayLogic: AnyObject {
     
@@ -60,7 +61,9 @@ class DetailsViewController: UIViewController, DetailsDisplayLogic {
         let label = UILabel()
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 6
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
+        label.numberOfLines = 0
         return label
     }()
     
@@ -168,7 +171,7 @@ extension DetailsViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let iconSize = view.width / 4
+        let iconSize = view.width / 3
         
         NSLayoutConstraint.activate([
             
@@ -197,8 +200,8 @@ extension DetailsViewController {
             idLabel.topAnchor.constraint(equalTo: scrollStackViewContainer.topAnchor, constant: 5),
             
             // descriptionLabel constraints
-            descriptionLabel.topAnchor.constraint(equalTo: characterIcon.bottomAnchor, constant: 5),
-            descriptionLabel.leadingAnchor.constraint(equalTo: characterIcon.trailingAnchor, constant: 5),
+            descriptionLabel.topAnchor.constraint(equalTo: characterIcon.bottomAnchor, constant: 10),
+            descriptionLabel.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor, constant: 5),
             descriptionLabel.trailingAnchor.constraint(equalTo: scrollStackViewContainer.trailingAnchor, constant: 5),
             
             // comicsLabel constraints
@@ -241,6 +244,18 @@ extension DetailsViewController {
             seriesCollection.trailingAnchor.constraint(equalTo: scrollStackViewContainer.trailingAnchor),
             seriesCollection .heightAnchor.constraint(equalToConstant: 210),
         ])
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        interactor?.fetchDetails(id: id!) {
+            guard let character = self.interactor?.getCharacter() else { return }
+            self.idLabel.text = character.id
+            self.descriptionLabel.text = character.desription
+            self.characterIcon.sd_setImage(with: URL(string: character.thumbnailUrl),
+                                           placeholderImage: nil,
+                                           options: [.scaleDownLargeImages])
+        }
     }
 }
 

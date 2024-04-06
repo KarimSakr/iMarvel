@@ -21,7 +21,13 @@ struct DetailsModels {
     
     struct ViewModels {
         
-        // response here
+        struct Character {
+            let name: String
+            let id  : String
+            let thumbnailUrl: String
+            let desription: String
+
+        }
         
     }
     
