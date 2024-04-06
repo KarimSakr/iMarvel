@@ -9,16 +9,16 @@ import Foundation
 
 struct Story: Codable {
     
-    var id            : Int?           = nil
-    var title         : String?        = nil
-    var description   : String?        = nil
-    var resourceURI   : String?        = nil
-    var type          : String?        = nil
-    var modified      : String?        = nil
-    var thumbnail     : String?        = nil
-    var series        : Archive?        = Archive()
-    var comics        : Archive?        = Archive()
-    var events        : Archive?        = Archive()
+    var id            : Int           = 0
+    var title         : String        = ""
+    var description   : String        = ""
+    var resourceURI   : String        = ""
+    var type          : String        = ""
+    var modified      : String        = ""
+    var thumbnail     : String        = ""
+    var series        : Archive       = Archive()
+    var comics        : Archive       = Archive()
+    var events        : Archive       = Archive()
     
     enum CodingKeys: String, CodingKey {
         
@@ -38,16 +38,16 @@ struct Story: Codable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        id            = try values.decodeIfPresent(Int.self           , forKey: .id            )
-        title         = try values.decodeIfPresent(String.self        , forKey: .title         )
-        description   = try values.decodeIfPresent(String.self        , forKey: .description   )
-        resourceURI   = try values.decodeIfPresent(String.self        , forKey: .resourceURI   )
-        type          = try values.decodeIfPresent(String.self        , forKey: .type          )
-        modified      = try values.decodeIfPresent(String.self        , forKey: .modified      )
-        thumbnail     = try values.decodeIfPresent(String.self        , forKey: .thumbnail     )
-        series        = try values.decodeIfPresent(Archive.self        , forKey: .series        )
-        comics        = try values.decodeIfPresent(Archive.self        , forKey: .comics        )
-        events        = try values.decodeIfPresent(Archive.self        , forKey: .events        )
+        id            = try values.decodeIfPresent(Int.self           , forKey: .id            ) ?? 0
+        title         = try values.decodeIfPresent(String.self        , forKey: .title         ) ?? ""
+        description   = try values.decodeIfPresent(String.self        , forKey: .description   ) ?? ""
+        resourceURI   = try values.decodeIfPresent(String.self        , forKey: .resourceURI   ) ?? ""
+        type          = try values.decodeIfPresent(String.self        , forKey: .type          ) ?? ""
+        modified      = try values.decodeIfPresent(String.self        , forKey: .modified      ) ?? ""
+        thumbnail     = try values.decodeIfPresent(String.self        , forKey: .thumbnail     ) ?? ""
+        series        = try values.decodeIfPresent(Archive.self        , forKey: .series       ) ?? Archive()
+        comics        = try values.decodeIfPresent(Archive.self        , forKey: .comics       ) ?? Archive()
+        events        = try values.decodeIfPresent(Archive.self        , forKey: .events       ) ?? Archive()
     }
     
     init() {

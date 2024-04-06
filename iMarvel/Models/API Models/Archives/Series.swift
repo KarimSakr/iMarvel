@@ -9,20 +9,20 @@ import Foundation
 
 struct Series: Codable {
     
-    var id          : Int?        = nil
-    var title       : String?     = nil
-    var description : String?     = nil
-    var resourceURI : String?     = nil
-    var urls        : [Urls]?     = []
-    var startYear   : Int?        = nil
-    var endYear     : Int?        = nil
-    var rating      : String?     = nil
-    var type        : String?     = nil
-    var modified    : String?     = nil
-    var thumbnail   : Thumbnail?  = Thumbnail()
-    var stories     : Archive?    = Archive()
-    var comics      : Archive?     = Archive()
-    var events      : Archive?     = Archive()
+    var id          : Int        = 0
+    var title       : String     = ""
+    var description : String     = ""
+    var resourceURI : String     = ""
+    var urls        : [Urls]     = []
+    var startYear   : Int        = 0
+    var endYear     : Int        = 0
+    var rating      : String     = ""
+    var type        : String     = ""
+    var modified    : String     = ""
+    var thumbnail   : Thumbnail  = Thumbnail()
+    var stories     : Archive    = Archive()
+    var comics      : Archive    = Archive()
+    var events      : Archive    = Archive()
     
     enum CodingKeys: String, CodingKey {
         
@@ -45,20 +45,20 @@ struct Series: Codable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        id          = try values.decodeIfPresent(Int.self        , forKey: .id          )
-        title       = try values.decodeIfPresent(String.self     , forKey: .title       )
-        description = try values.decodeIfPresent(String.self     , forKey: .description )
-        resourceURI = try values.decodeIfPresent(String.self     , forKey: .resourceURI )
-        urls        = try values.decodeIfPresent([Urls].self     , forKey: .urls        )
-        startYear   = try values.decodeIfPresent(Int.self        , forKey: .startYear   )
-        endYear     = try values.decodeIfPresent(Int.self        , forKey: .endYear     )
-        rating      = try values.decodeIfPresent(String.self     , forKey: .rating      )
-        type        = try values.decodeIfPresent(String.self     , forKey: .type        )
-        modified    = try values.decodeIfPresent(String.self     , forKey: .modified    )
-        thumbnail   = try values.decodeIfPresent(Thumbnail.self  , forKey: .thumbnail   )
-        stories     = try values.decodeIfPresent(Archive.self    , forKey: .stories     )
-        comics      = try values.decodeIfPresent(Archive.self     , forKey: .comics      )
-        events      = try values.decodeIfPresent(Archive.self     , forKey: .events      )
+        id          = try values.decodeIfPresent(Int.self        , forKey: .id          ) ?? 0
+        title       = try values.decodeIfPresent(String.self     , forKey: .title       ) ?? ""
+        description = try values.decodeIfPresent(String.self     , forKey: .description ) ?? ""
+        resourceURI = try values.decodeIfPresent(String.self     , forKey: .resourceURI ) ?? ""
+        urls        = try values.decodeIfPresent([Urls].self     , forKey: .urls        ) ?? []
+        startYear   = try values.decodeIfPresent(Int.self        , forKey: .startYear   ) ?? 0
+        endYear     = try values.decodeIfPresent(Int.self        , forKey: .endYear     ) ?? 0
+        rating      = try values.decodeIfPresent(String.self     , forKey: .rating      ) ?? ""
+        type        = try values.decodeIfPresent(String.self     , forKey: .type        ) ?? ""
+        modified    = try values.decodeIfPresent(String.self     , forKey: .modified    ) ?? ""
+        thumbnail   = try values.decodeIfPresent(Thumbnail.self  , forKey: .thumbnail   ) ?? Thumbnail()
+        stories     = try values.decodeIfPresent(Archive.self    , forKey: .stories     ) ?? Archive()
+        comics      = try values.decodeIfPresent(Archive.self     , forKey: .comics     ) ?? Archive()
+        events      = try values.decodeIfPresent(Archive.self     , forKey: .events     ) ?? Archive()
         
     }
     
