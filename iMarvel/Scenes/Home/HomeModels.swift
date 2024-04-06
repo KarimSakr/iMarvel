@@ -21,7 +21,11 @@ struct HomeModels {
     
     struct ViewModels {
         
-        // response here
+        struct Character {
+            var id  : Int
+            var name: String
+            var thumbnailUrl: String
+        }
         
     }
     

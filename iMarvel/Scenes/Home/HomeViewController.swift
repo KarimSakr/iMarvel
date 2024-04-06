@@ -15,6 +15,7 @@ import RxSwift
 
 protocol HomeDisplayLogic: AnyObject {
     
+    func showError(error: Error)
 }
 
 class HomeViewController: UIViewController, HomeDisplayLogic {
@@ -22,7 +23,61 @@ class HomeViewController: UIViewController, HomeDisplayLogic {
     var interactor: HomeBusinessLogic?
     var router: HomeRouter?
     
-    private var bag = DisposeBag()
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 1
+        layout.minimumInteritemSpacing = 1
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
+        let size = (view.width - 4) / 2
+        layout.itemSize = CGSize(width: size, height: size)
+        
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.register(CharacterCardCollectionViewCell.self, forCellWithReuseIdentifier: CharacterCardCollectionViewCell.identifier)
+        collection.alwaysBounceVertical = true
+        collection.showsVerticalScrollIndicator = false
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        return collection
+    }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
+    
+}
+
+//MARK: - Lifecycle
+extension HomeViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setup()
+        setupViews()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        NSLayoutConstraint.activate([
+            
+            //collectionView constarints
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            // Activity Indicator constraints
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
+    }
+}
+
+//MARK: - setup
+extension HomeViewController {
     
     private func setup() {
         let viewController = self
@@ -37,22 +92,56 @@ class HomeViewController: UIViewController, HomeDisplayLogic {
         router.dataStore = interactor
     }
     
-    // MARK: View lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setup()
+    private func setupViews() {
         
-        APIClient.shared.request(.fetchCharacterList)
-            .subscribe { (event:Result<Response<[Character]>, Error>) in
-                
-                switch event {
-                case .success(let success):
-                    print(success)
-                case .failure(let failure):
-                    print(failure.localizedDescription)
-                }
-                
-            }.disposed(by: bag)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        view.addSubview(self.activityIndicator)
+        view.addSubview(collectionView)
+        
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        
+        interactor?.fetchCharacterList(skip: 0, limit: 20) {
+            self.collectionView.reloadData()
+            self.activityIndicator.isHidden = true
+        }
+    }
+}
+
+//MARK: - functions
+extension HomeViewController {
+    func showError(error: Error) {
+        AppSnackBar.make(in: self.view, message: "Something went wrong", duration: .infinite).setAction(with: "Retry") {
+            guard let interactor = self.interactor else { return }
+            interactor.refreshList {
+                self.collectionView.reloadData()
+            }
+        }.show()
+    }
+}
+
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return interactor!.getCharacters().count
     }
     
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCardCollectionViewCell.identifier, for: indexPath) as? CharacterCardCollectionViewCell else {
+            fatalError("Failed to dequeue CharacterCardCollectionViewCell in HomeViewController")
+        }
+        
+        cell.configure(with: interactor!.getCharacters()[indexPath.item])
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        interactor!.fetchCharacterIfNeeded(index: indexPath.item) {
+            collectionView.reloadData()
+        }
+    }
 }

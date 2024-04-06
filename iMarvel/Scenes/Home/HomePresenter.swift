@@ -13,11 +13,33 @@
 import UIKit
 
 protocol HomePresentationLogic {
-  
+    
+    func didGetCharacters(_ model: Response<[Character]>) -> [HomeModels.ViewModels.Character]
+    
+    func showError(error: Error)
 }
 
 class HomePresenter: HomePresentationLogic {
-  weak var viewController: HomeDisplayLogic?
-  
-  
+    
+    weak var viewController: HomeDisplayLogic?
+    
+    func didGetCharacters(_ model: Response<[Character]>) -> [HomeModels.ViewModels.Character] {
+        
+        guard model.code == 200, let characters = model.data.results else {
+            return []
+        }
+        
+        return characters.map{ self.createSingleCharacter(character: $0)}
+    }
+    
+    private func createSingleCharacter(character: Character) -> HomeModels.ViewModels.Character {
+        return HomeModels.ViewModels.Character(id: character.id,
+                                               name: character.name,
+                                               thumbnailUrl: character.thumbnail.path + "." + character.thumbnail.ext)
+    }
+    
+    func showError(error: any Error) {
+        viewController?.showError(error: error)
+    }
+    
 }

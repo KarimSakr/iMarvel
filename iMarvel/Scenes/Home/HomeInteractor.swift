@@ -11,23 +11,68 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol HomeBusinessLogic {
-  
+    
+    func fetchCharacterList(skip:Int, limit:Int, completion: @escaping () -> Void)
+    
+    func fetchCharacterIfNeeded(index: Int, completion: @escaping () -> Void)
+    
+    func refreshList(completion: @escaping () -> Void)
+    
+    func getCharacters() -> [HomeModels.ViewModels.Character]
+    
 }
 
 protocol HomeDataStore {
-  //var name: String { get set }
+    var characters: [HomeModels.ViewModels.Character] { get set }
 }
 
 class HomeInteractor: HomeBusinessLogic, HomeDataStore {
-  var presenter: HomePresentationLogic?
-  //var name: String = ""
-  
-  // MARK: Do something
-  
-  func doSomething(request: HomeModels.Request) {
     
+    var presenter: HomePresentationLogic?
     
-  }
+    var characters: [HomeModels.ViewModels.Character] = [HomeModels.ViewModels.Character]()
+    
+    private var elementsLeft: Int = 0
+    
+    private var bag = DisposeBag()
+    
+    func getCharacters() -> [HomeModels.ViewModels.Character] {
+        return characters
+    }
+    
+    func fetchCharacterList(skip:Int, limit:Int, completion: @escaping () -> Void) {
+        APIClient.shared.request(.fetchCharacterList(skip: skip, limit: limit))
+            .subscribe { [weak self] (event:Result<Response<[Character]>, Error>) in
+                guard let self = self else { return }
+                
+                switch event{
+                case .success(let data):
+                    self.elementsLeft = data.data.total - self.characters.count
+                    self.characters.append(contentsOf: self.presenter?.didGetCharacters(data) ?? [])
+                    completion()
+                case .failure(let error):
+                    presenter?.showError(error: error)
+                }
+            }.disposed(by: bag)
+    }
+    
+    func fetchCharacterIfNeeded(index: Int, completion: @escaping () -> Void) {
+        guard index == characters.count - 3, elementsLeft != 0 else { return }
+        
+        fetchCharacterList(skip: characters.count, limit: 20) {
+            completion()
+        }
+    }
+    
+    func refreshList(completion: @escaping () -> Void) {
+        characters = []
+        elementsLeft = 0
+        completion()
+        fetchCharacterList(skip: 0, limit: 20) {
+            completion()
+        }
+    }
 }
