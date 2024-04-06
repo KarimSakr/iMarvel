@@ -1,5 +1,5 @@
 //
-//  Events.swift
+//  Event.swift
 //  iMarvel
 //
 //  Created by Karim Sakr on 06/04/2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Events: Codable {
+struct Event: Codable {
     
     var id          : Int?        = nil
     var title       : String?     = nil

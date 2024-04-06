@@ -1,5 +1,5 @@
 //
-//  Comics.swift
+//  Comic.swift
 //  iMarvel
 //
 //  Created by Karim Sakr on 06/04/2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Comics: Codable {
+struct Comic: Codable {
     
     var id                 : Int?           = nil
     var digitalId          : Int?           = nil

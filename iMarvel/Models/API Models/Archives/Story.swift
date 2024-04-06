@@ -1,5 +1,5 @@
 //
-//  Stories.swift
+//  Story.swift
 //  iMarvel
 //
 //  Created by Karim Sakr on 07/04/2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Stories: Codable {
+struct Story: Codable {
     
     var id            : Int?           = nil
     var title         : String?        = nil
