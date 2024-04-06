@@ -19,6 +19,8 @@ protocol HomeBusinessLogic {
     
     func fetchCharacterIfNeeded(index: Int, completion: @escaping () -> Void)
     
+    func refreshList(completion: @escaping () -> Void)
+    
     func getCharacters() -> [HomeModels.ViewModels.Character]
     
 }
@@ -52,7 +54,7 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
                     self.characters.append(contentsOf: self.presenter?.didGetCharacters(data) ?? [])
                     completion()
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    presenter?.showError(error: error)
                 }
             }.disposed(by: bag)
     }
@@ -61,6 +63,15 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
         guard index == characters.count - 3, elementsLeft != 0 else { return }
         
         fetchCharacterList(skip: characters.count, limit: 20) {
+            completion()
+        }
+    }
+    
+    func refreshList(completion: @escaping () -> Void) {
+        characters = []
+        elementsLeft = 0
+        completion()
+        fetchCharacterList(skip: 0, limit: 20) {
             completion()
         }
     }

@@ -42,6 +42,8 @@
 		7F9C52CC2BBEFD55002EC53D /* iMarvel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C52CA2BBEFD55002EC53D /* iMarvel.xcdatamodeld */; };
 		7F9C52CE2BBEFD57002EC53D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F9C52CD2BBEFD57002EC53D /* Assets.xcassets */; };
 		7F9C52D12BBEFD57002EC53D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F9C52CF2BBEFD57002EC53D /* LaunchScreen.storyboard */; };
+		EF0A0CEF2BC1632A00348D8C /* SnackBar in Frameworks */ = {isa = PBXBuildFile; productRef = EF0A0CEE2BC1632A00348D8C /* SnackBar */; };
+		EF0A0CF22BC1635300348D8C /* AppSnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0A0CF12BC1635300348D8C /* AppSnackBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +75,7 @@
 		7F9C52CD2BBEFD57002EC53D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F9C52D02BBEFD57002EC53D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7F9C52D22BBEFD57002EC53D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF0A0CF12BC1635300348D8C /* AppSnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSnackBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +88,7 @@
 				7F1AFB6F2BBF015F000DA23A /* RxBlocking in Frameworks */,
 				7F1AFBBA2BC027ED000DA23A /* SDWebImage in Frameworks */,
 				7F1AFB772BBF015F000DA23A /* RxRelay in Frameworks */,
+				EF0A0CEF2BC1632A00348D8C /* SnackBar in Frameworks */,
 				7F1AFB732BBF015F000DA23A /* RxCocoa in Frameworks */,
 				7F1AFB6C2BBF00F1000DA23A /* AlamofireDynamic in Frameworks */,
 				7F1AFB752BBF015F000DA23A /* RxCocoa-Dynamic in Frameworks */,
@@ -203,6 +207,7 @@
 		7F1AFBAF2BC00783000DA23A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EF0A0CF02BC1633300348D8C /* Snackbar */,
 				7F1AFBB02BC00793000DA23A /* Cells */,
 			);
 			path = Views;
@@ -257,6 +262,14 @@
 			path = iMarvel;
 			sourceTree = "<group>";
 		};
+		EF0A0CF02BC1633300348D8C /* Snackbar */ = {
+			isa = PBXGroup;
+			children = (
+				EF0A0CF12BC1635300348D8C /* AppSnackBar.swift */,
+			);
+			path = Snackbar;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -283,6 +296,7 @@
 				7F1AFB762BBF015F000DA23A /* RxRelay */,
 				7F1AFBB92BC027ED000DA23A /* SDWebImage */,
 				7F1AFBBB2BC027ED000DA23A /* SDWebImageMapKit */,
+				EF0A0CEE2BC1632A00348D8C /* SnackBar */,
 			);
 			productName = iMarvel;
 			productReference = 7F9C52BE2BBEFD55002EC53D /* iMarvel.app */;
@@ -316,6 +330,7 @@
 				7F1AFB682BBF00F1000DA23A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				7F1AFB6D2BBF015F000DA23A /* XCRemoteSwiftPackageReference "RxSwift" */,
 				7F1AFBB82BC027EC000DA23A /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				EF0A0CED2BC1632A00348D8C /* XCRemoteSwiftPackageReference "SnackBar" */,
 			);
 			productRefGroup = 7F9C52BF2BBEFD55002EC53D /* Products */;
 			projectDirPath = "";
@@ -345,6 +360,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF0A0CF22BC1635300348D8C /* AppSnackBar.swift in Sources */,
 				7F1AFBA82BBF3617000DA23A /* String.swift in Sources */,
 				7F1AFB9F2BBF324F000DA23A /* Items.swift in Sources */,
 				7F1AFBB52BC01734000DA23A /* UIView.swift in Sources */,
@@ -627,6 +643,14 @@
 				minimumVersion = 5.19.1;
 			};
 		};
+		EF0A0CED2BC1632A00348D8C /* XCRemoteSwiftPackageReference "SnackBar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ahmedAlmasri/SnackBar.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -674,6 +698,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7F1AFBB82BC027EC000DA23A /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImageMapKit;
+		};
+		EF0A0CEE2BC1632A00348D8C /* SnackBar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EF0A0CED2BC1632A00348D8C /* XCRemoteSwiftPackageReference "SnackBar" */;
+			productName = SnackBar;
 		};
 /* End XCSwiftPackageProductDependency section */
 

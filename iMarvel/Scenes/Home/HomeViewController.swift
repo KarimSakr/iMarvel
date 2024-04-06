@@ -15,6 +15,7 @@ import RxSwift
 
 protocol HomeDisplayLogic: AnyObject {
     
+    func showError(error: Error)
 }
 
 class HomeViewController: UIViewController, HomeDisplayLogic {
@@ -111,7 +112,14 @@ extension HomeViewController {
 
 //MARK: - functions
 extension HomeViewController {
-    // other functions here
+    func showError(error: Error) {
+        AppSnackBar.make(in: self.view, message: "Something went wrong", duration: .infinite).setAction(with: "Retry") {
+            guard let interactor = self.interactor else { return }
+            interactor.refreshList {
+                self.collectionView.reloadData()
+            }
+        }.show()
+    }
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

@@ -15,9 +15,12 @@ import UIKit
 protocol HomePresentationLogic {
     
     func didGetCharacters(_ model: Response<[Character]>) -> [HomeModels.ViewModels.Character]
+    
+    func showError(error: Error)
 }
 
 class HomePresenter: HomePresentationLogic {
+    
     weak var viewController: HomeDisplayLogic?
     
     func didGetCharacters(_ model: Response<[Character]>) -> [HomeModels.ViewModels.Character] {
@@ -33,6 +36,10 @@ class HomePresenter: HomePresentationLogic {
         return HomeModels.ViewModels.Character(id: character.id,
                                                name: character.name,
                                                thumbnailUrl: character.thumbnail.path + "." + character.thumbnail.ext)
+    }
+    
+    func showError(error: any Error) {
+        viewController?.showError(error: error)
     }
     
 }
