@@ -12,6 +12,8 @@ class CharacterCardCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "CharacterCardCollectionViewCell"
     
+    var characterId: Int = 0
+    
     let characterThumbnail: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -33,6 +35,7 @@ class CharacterCardCollectionViewCell: UICollectionViewCell {
         
         characterNameLabel.text = character.name
         characterThumbnail.sd_setImage(with: URL(string: character.thumbnailUrl), placeholderImage: nil, options:[.scaleDownLargeImages])
+        characterId = character.id
         setupUI()
     }
     
