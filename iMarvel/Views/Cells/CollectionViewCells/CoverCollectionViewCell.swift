@@ -17,7 +17,18 @@ class CoverCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.tintColor = .white
         imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
          return imageView
+    }()
+    
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.textColor = .secondaryLabel
+        label.backgroundColor = .systemBackground.withAlphaComponent(0.8)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     override init(frame: CGRect) {
@@ -49,6 +60,10 @@ extension CoverCollectionViewCell {
             thumbnail.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             thumbnail.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             thumbnail.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
 }
@@ -56,14 +71,16 @@ extension CoverCollectionViewCell {
 //MARK: - setup
 extension CoverCollectionViewCell {
     
-    func configure(url: String) {
+    func configure(url: String, title: String) {
         thumbnail.sd_setImage(with: URL(string: url), placeholderImage: nil, options:[.scaleDownLargeImages])
+        titleLabel.text = title
         setupUI()
     }
     
     private func setupUI() {
         addSubview(thumbnail)
-        thumbnail.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(titleLabel)
+        
     }
     
 }

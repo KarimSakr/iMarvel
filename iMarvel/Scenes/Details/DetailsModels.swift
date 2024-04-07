@@ -31,15 +31,19 @@ struct DetailsModels {
         
         struct Comic {
             let thumbnailUrl: String
+            let title: String
         }
         struct Event {
             let thumbnailUrl: String
+            let title: String
         }
         struct Series {
             let thumbnailUrl: String
+            let title: String
         }
         struct Story {
             let thumbnailUrl: String
+            let title: String
         }
         
     }

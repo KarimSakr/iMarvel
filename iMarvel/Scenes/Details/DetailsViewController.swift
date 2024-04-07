@@ -81,7 +81,7 @@ class DetailsViewController: UIViewController, DetailsDisplayLogic {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .systemBackground
         
         collectionView.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
         
@@ -103,7 +103,7 @@ class DetailsViewController: UIViewController, DetailsDisplayLogic {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .systemBackground
         
         collectionView.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
         
@@ -125,7 +125,7 @@ class DetailsViewController: UIViewController, DetailsDisplayLogic {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .systemBackground
         
         collectionView.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
         
@@ -147,7 +147,7 @@ class DetailsViewController: UIViewController, DetailsDisplayLogic {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .systemBackground
         
         collectionView.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
         
@@ -177,8 +177,23 @@ extension DetailsViewController {
         
         NSLayoutConstraint.activate([
             
+            // characterIcon constraints
+            characterIcon.widthAnchor.constraint(equalToConstant: iconSize),
+            characterIcon.heightAnchor.constraint(equalToConstant: iconSize),
+            characterIcon.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
+            characterIcon.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            
+            // idLabel constraints
+            idLabel.leadingAnchor.constraint(equalTo: characterIcon.trailingAnchor, constant: 5),
+            idLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
+            
+            // descriptionLabel constraints
+            descriptionLabel.topAnchor.constraint(equalTo: characterIcon.bottomAnchor, constant: 10),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 5),
+            
             // scrollView constraints
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -190,24 +205,9 @@ extension DetailsViewController {
             scrollStackViewContainer.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
             scrollStackViewContainer.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
             
-            // characterIcon constraints
-            characterIcon.widthAnchor.constraint(equalToConstant: iconSize),
-            characterIcon.heightAnchor.constraint(equalToConstant: iconSize),
-            characterIcon.topAnchor.constraint(equalTo: scrollStackViewContainer.topAnchor, constant: 5),
-            characterIcon.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor, constant: 5),
-            
-            // idLabel constraints
-            idLabel.leadingAnchor.constraint(equalTo: characterIcon.trailingAnchor, constant: 5),
-            idLabel.topAnchor.constraint(equalTo: scrollStackViewContainer.topAnchor, constant: 5),
-            
-            // descriptionLabel constraints
-            descriptionLabel.topAnchor.constraint(equalTo: characterIcon.bottomAnchor, constant: 10),
-            descriptionLabel.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor, constant: 5),
-            descriptionLabel.trailingAnchor.constraint(equalTo: scrollStackViewContainer.trailingAnchor, constant: 5),
-            
             // comicsLabel constraints
             comicsLabel.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor, constant: 5),
-            comicsLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20),
+            comicsLabel.topAnchor.constraint(equalTo: scrollStackViewContainer.topAnchor, constant: 20),
             
             // comicsCollection constraints
             comicsCollection.topAnchor.constraint(equalTo: comicsLabel.bottomAnchor, constant: 5),
@@ -293,11 +293,14 @@ extension DetailsViewController {
     }
     
     private func addSubviews() {
+        view.addSubview(characterIcon)
+        view.addSubview(idLabel)
+        view.addSubview(descriptionLabel)
         view.addSubview(scrollView)
         scrollView.addSubview(scrollStackViewContainer)
-        scrollStackViewContainer.addArrangedSubview(characterIcon)
-        scrollStackViewContainer.addArrangedSubview(idLabel)
-        scrollStackViewContainer.addArrangedSubview(descriptionLabel)
+//        scrollStackViewContainer.addArrangedSubview(characterIcon)
+//        scrollStackViewContainer.addArrangedSubview(idLabel)
+//        scrollStackViewContainer.addArrangedSubview(descriptionLabel)
         scrollStackViewContainer.addArrangedSubview(comicsLabel)
         scrollStackViewContainer.addArrangedSubview(comicsCollection)
         scrollStackViewContainer.addArrangedSubview(eventsLabel)
@@ -354,19 +357,19 @@ extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataS
         case comicsCollection:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
             
-            cell.configure(url: interactor?.getComics()[indexPath.item].thumbnailUrl ?? "")
+            cell.configure(url: interactor?.getComics()[indexPath.item].thumbnailUrl ?? "", title: interactor?.getComics()[indexPath.item].title ?? "")
             
         case seriesCollection:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
-            cell.configure(url: interactor?.getSeries()[indexPath.item].thumbnailUrl ?? "")
+            cell.configure(url: interactor?.getSeries()[indexPath.item].thumbnailUrl ?? "", title: interactor?.getSeries()[indexPath.item].title ?? "")
             
         case eventsCollection:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
-            cell.configure(url: interactor?.getEvents()[indexPath.item].thumbnailUrl ?? "")
+            cell.configure(url: interactor?.getEvents()[indexPath.item].thumbnailUrl ?? "",title: interactor?.getEvents()[indexPath.item].title ?? "")
             
         case storiesCollection:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
-            cell.configure(url: interactor?.getStories()[indexPath.item].thumbnailUrl ?? "")
+            cell.configure(url: interactor?.getStories()[indexPath.item].thumbnailUrl ?? "",title: interactor?.getStories()[indexPath.item].title ?? "")
         default:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
         }
