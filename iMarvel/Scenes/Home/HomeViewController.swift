@@ -144,4 +144,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             collectionView.reloadData()
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        router?.goToDetailsVC(collectionView, didSelectItemAt: indexPath)
+    }
 }

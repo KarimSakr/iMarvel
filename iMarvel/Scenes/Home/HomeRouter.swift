@@ -13,15 +13,30 @@
 import UIKit
 
 @objc protocol HomeRoutingLogic {
-  
+    
 }
 
 protocol HomeDataPassing {
-  var dataStore: HomeDataStore? { get }
+    var dataStore: HomeDataStore? { get }
 }
 
 class HomeRouter: NSObject, HomeRoutingLogic, HomeDataPassing {
-  weak var viewController: HomeViewController?
-  var dataStore: HomeDataStore?
-  
+    weak var viewController: HomeViewController?
+    var dataStore: HomeDataStore?
+    
+    func goToDetailsVC(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as? CharacterCardCollectionViewCell
+        
+        let id = cell?.characterId
+        
+        let vc = DetailsViewController()
+        
+        vc.id = id ?? 0
+        
+        vc.title = cell?.characterNameLabel.text
+        
+        viewController?.navigationController?.pushViewController(vc, animated: true)
+
+    }
+    
 }

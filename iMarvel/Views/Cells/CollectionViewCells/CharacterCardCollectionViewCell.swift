@@ -12,7 +12,9 @@ class CharacterCardCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "CharacterCardCollectionViewCell"
     
-    let characterThumbnail: UIImageView = {
+    var characterId: Int = 0
+    
+    private let characterThumbnail: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.tintColor = .white
@@ -20,7 +22,7 @@ class CharacterCardCollectionViewCell: UICollectionViewCell {
          return imageView
     }()
     
-    private let characterNameLabel: UILabel = {
+    let characterNameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         label.textAlignment = .center
@@ -33,6 +35,7 @@ class CharacterCardCollectionViewCell: UICollectionViewCell {
         
         characterNameLabel.text = character.name
         characterThumbnail.sd_setImage(with: URL(string: character.thumbnailUrl), placeholderImage: nil, options:[.scaleDownLargeImages])
+        characterId = character.id
         setupUI()
     }
     

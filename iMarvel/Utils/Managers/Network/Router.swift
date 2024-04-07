@@ -10,7 +10,12 @@ import Alamofire
 
 enum Router: URLRequestConvertible {
     
-    case fetchCharacterList(skip: Int, limit: Int)
+    case fetchCharacterList(skip: Int, limit: Int),
+         fetchDetails(id: Int),
+         fetchComics(id: Int),
+         fetchStories(id: Int),
+         fetchSeries(id: Int),
+         fetchEvents(id: Int)
     
     var baseUrl: String {
         return Constants.Url.BaseUrl
@@ -20,6 +25,17 @@ enum Router: URLRequestConvertible {
         switch self {
         case .fetchCharacterList:
             return Constants.Url.Endpoint.fetchCharacterList
+            
+        case.fetchDetails(let id):
+            return Constants.Url.Endpoint.fetchCharacterList + "/\(id)"
+        case .fetchComics(let id):
+            return Constants.Url.Endpoint.fetchCharacterList + "/\(id)/comics"
+        case .fetchStories(let id):
+            return Constants.Url.Endpoint.fetchCharacterList + "/\(id)/stories"
+        case .fetchSeries(let id):
+            return Constants.Url.Endpoint.fetchCharacterList + "/\(id)/series"
+        case .fetchEvents(let id):
+            return Constants.Url.Endpoint.fetchCharacterList + "/\(id)/events"
         }
     }
     
@@ -37,6 +53,45 @@ enum Router: URLRequestConvertible {
                 "apikey": publicKey,
                 "hash"  : md5Hash,
             ]
+            
+        case .fetchDetails:
+            return [
+                "ts"    : String(timeStamp),
+                "apikey": publicKey,
+                "hash"  : md5Hash,
+            ]
+        case .fetchComics:
+            return [
+                "orderBy":"issueNumber",
+                "limit"  : "3",
+                "ts"     : String(timeStamp),
+                "apikey" : publicKey,
+                "hash"   : md5Hash,
+            ]
+        case .fetchStories:
+            return [
+                "orderBy":"modified",
+                "limit"  : "3",
+                "ts"     : String(timeStamp),
+                "apikey" : publicKey,
+                "hash"   : md5Hash,
+            ]
+        case .fetchSeries:
+            return [
+                "orderBy":"startYear",
+                "limit"  : "3",
+                "ts"     : String(timeStamp),
+                "apikey" : publicKey,
+                "hash"   : md5Hash,
+            ]
+        case .fetchEvents:
+            return [
+                "orderBy":"startDate",
+                "limit"  : "3",
+                "ts"     : String(timeStamp),
+                "apikey" : publicKey,
+                "hash"   : md5Hash,
+            ]
         }
     }
     
@@ -47,12 +102,20 @@ enum Router: URLRequestConvertible {
         }
     }
     
-        var type: Decodable.Type {
-            switch self {
-            case .fetchCharacterList:
-                return Response<[Character]>.self
-            }
+    var type: Decodable.Type {
+        switch self {
+        case .fetchCharacterList, .fetchDetails:
+            return Response<[Character]>.self
+        case .fetchComics:
+            return Response<[Comic]>.self
+        case .fetchStories:
+            return Response<[Story]>.self
+        case .fetchSeries:
+            return Response<[Series]>.self
+        case .fetchEvents:
+            return Response<[Event]>.self
         }
+    }
     
     var body: Data? {
         switch self {
