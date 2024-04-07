@@ -17,6 +17,8 @@ protocol HomeBusinessLogic {
     
     func fetchCharacterList(skip:Int, limit:Int, completion: @escaping () -> Void)
     
+    func fetchCachedCharacterList(completion: @escaping () -> Void)
+    
     func fetchCharacterIfNeeded(index: Int, completion: @escaping () -> Void)
     
     func refreshList(completion: @escaping () -> Void)
@@ -35,9 +37,11 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
     
     var characters: [HomeModels.ViewModels.Character] = [HomeModels.ViewModels.Character]()
     
-    private var elementsLeft: Int = 0
+    private var elementsLeft: Int = 1
     
     private var bag = DisposeBag()
+    
+    private let db = LocalDatabaseManager.shared
     
     func getCharacters() -> [HomeModels.ViewModels.Character] {
         return characters
@@ -57,6 +61,19 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
                     presenter?.showError(error: error)
                 }
             }.disposed(by: bag)
+    }
+    
+    func fetchCachedCharacterList(completion: @escaping () -> Void) {
+        let cachedCharcter = db.fetch(CharacterCD.self)
+        
+        characters = presenter?.didGetCachedCharacters(cachedCharcter) ?? []
+        completion()
+        
+        if characters.isEmpty {
+            fetchCharacterList(skip: 0, limit: 20) {
+                completion()
+            }
+        }
     }
     
     func fetchCharacterIfNeeded(index: Int, completion: @escaping () -> Void) {

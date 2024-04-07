@@ -56,6 +56,7 @@ extension HomeViewController {
         super.viewDidLoad()
         setup()
         setupViews()
+        fetchCharacters()
     }
     
     override func viewDidLayoutSubviews() {
@@ -103,15 +104,19 @@ extension HomeViewController {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         
-        interactor?.fetchCharacterList(skip: 0, limit: 20) {
-            self.collectionView.reloadData()
-            self.activityIndicator.isHidden = true
-        }
     }
 }
 
 //MARK: - functions
 extension HomeViewController {
+    
+    func fetchCharacters() {
+        guard let interactor = interactor else { return }
+        interactor.fetchCachedCharacterList {
+            self.collectionView.reloadData()
+            self.activityIndicator.isHidden = true
+        }
+    }
     func showError(error: Error) {
         AppSnackBar.make(in: self.view, message: "Something went wrong", duration: .infinite).setAction(with: "Retry") {
             guard let interactor = self.interactor else { return }

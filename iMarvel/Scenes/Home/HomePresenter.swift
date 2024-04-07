@@ -15,6 +15,7 @@ import UIKit
 protocol HomePresentationLogic {
     
     func didGetCharacters(_ model: Response<[Character]>) -> [HomeModels.ViewModels.Character]
+    func didGetCachedCharacters(_ cachedCharacters: [CharacterCD]) -> [HomeModels.ViewModels.Character]
     
     func showError(error: Error)
 }
@@ -29,13 +30,26 @@ class HomePresenter: HomePresentationLogic {
             return []
         }
         
-        return characters.map{ self.createSingleCharacter(character: $0)}
+        return characters.map{
+            $0.cache()
+            return self.createSingleCharacter(character: $0)
+        }
     }
     
     private func createSingleCharacter(character: Character) -> HomeModels.ViewModels.Character {
         return HomeModels.ViewModels.Character(id: character.id,
                                                name: character.name,
                                                thumbnailUrl: character.thumbnail.path + "." + character.thumbnail.ext)
+    }
+    
+    func didGetCachedCharacters(_ cachedCharacters: [CharacterCD]) -> [HomeModels.ViewModels.Character] {
+        return cachedCharacters.map{ self.createSingleCachedCharacter(character: $0) }
+    }
+    
+    private func createSingleCachedCharacter(character: CharacterCD) -> HomeModels.ViewModels.Character {
+        return HomeModels.ViewModels.Character(id: Int(character.id),
+                                               name: character.name,
+                                               thumbnailUrl: character.thumbnailURL)
     }
     
     func showError(error: any Error) {
