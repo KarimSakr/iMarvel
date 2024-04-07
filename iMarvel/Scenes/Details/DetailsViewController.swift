@@ -179,17 +179,16 @@ extension DetailsViewController {
             
             // scrollView constraints
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             // scrollView constraints
-            scrollStackViewContainer.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor),
-            scrollStackViewContainer.bottomAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.bottomAnchor),
-            scrollStackViewContainer.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor),
-            scrollStackViewContainer.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor),
-            scrollStackViewContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            scrollStackViewContainer.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
+            scrollStackViewContainer.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            scrollStackViewContainer.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            scrollStackViewContainer.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            scrollStackViewContainer.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            scrollStackViewContainer.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
             
             // characterIcon constraints
             characterIcon.widthAnchor.constraint(equalToConstant: iconSize),
@@ -296,17 +295,17 @@ extension DetailsViewController {
     private func addSubviews() {
         view.addSubview(scrollView)
         scrollView.addSubview(scrollStackViewContainer)
-        scrollStackViewContainer.addSubview(characterIcon)
-        scrollStackViewContainer.addSubview(idLabel)
-        scrollStackViewContainer.addSubview(descriptionLabel)
-        scrollStackViewContainer.addSubview(comicsLabel)
-        scrollStackViewContainer.addSubview(comicsCollection)
-        scrollStackViewContainer.addSubview(eventsLabel)
-        scrollStackViewContainer.addSubview(eventsCollection)
-        scrollStackViewContainer.addSubview(storiesLabel)
-        scrollStackViewContainer.addSubview(storiesCollection)
-        scrollStackViewContainer.addSubview(seriesLabel)
-        scrollStackViewContainer.addSubview(seriesCollection)
+        scrollStackViewContainer.addArrangedSubview(characterIcon)
+        scrollStackViewContainer.addArrangedSubview(idLabel)
+        scrollStackViewContainer.addArrangedSubview(descriptionLabel)
+        scrollStackViewContainer.addArrangedSubview(comicsLabel)
+        scrollStackViewContainer.addArrangedSubview(comicsCollection)
+        scrollStackViewContainer.addArrangedSubview(eventsLabel)
+        scrollStackViewContainer.addArrangedSubview(eventsCollection)
+        scrollStackViewContainer.addArrangedSubview(storiesLabel)
+        scrollStackViewContainer.addArrangedSubview(storiesCollection)
+        scrollStackViewContainer.addArrangedSubview(seriesLabel)
+        scrollStackViewContainer.addArrangedSubview(seriesCollection)
     }
     
     private func setupDelegatesAndDataSource() {
