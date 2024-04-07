@@ -60,7 +60,7 @@ enum Router: URLRequestConvertible {
                 "apikey": publicKey,
                 "hash"  : md5Hash,
             ]
-        case .fetchComics(id: let id):
+        case .fetchComics:
             return [
                 "orderBy":"issueNumber",
                 "limit"  : "3",
@@ -68,7 +68,7 @@ enum Router: URLRequestConvertible {
                 "apikey" : publicKey,
                 "hash"   : md5Hash,
             ]
-        case .fetchStories(id: let id):
+        case .fetchStories:
             return [
                 "orderBy":"modified",
                 "limit"  : "3",
@@ -76,7 +76,7 @@ enum Router: URLRequestConvertible {
                 "apikey" : publicKey,
                 "hash"   : md5Hash,
             ]
-        case .fetchSeries(id: let id):
+        case .fetchSeries:
             return [
                 "orderBy":"startYear",
                 "limit"  : "3",
@@ -84,7 +84,7 @@ enum Router: URLRequestConvertible {
                 "apikey" : publicKey,
                 "hash"   : md5Hash,
             ]
-        case .fetchEvents(id: let id):
+        case .fetchEvents:
             return [
                 "orderBy":"startDate",
                 "limit"  : "3",
@@ -106,13 +106,13 @@ enum Router: URLRequestConvertible {
         switch self {
         case .fetchCharacterList, .fetchDetails:
             return Response<[Character]>.self
-        case .fetchComics(id: let id):
+        case .fetchComics:
             return Response<[Comic]>.self
-        case .fetchStories(id: let id):
+        case .fetchStories:
             return Response<[Story]>.self
-        case .fetchSeries(id: let id):
+        case .fetchSeries:
             return Response<[Series]>.self
-        case .fetchEvents(id: let id):
+        case .fetchEvents:
             return Response<[Event]>.self
         }
     }

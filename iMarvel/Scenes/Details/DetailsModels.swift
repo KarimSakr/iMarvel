@@ -29,6 +29,19 @@ struct DetailsModels {
 
         }
         
+        struct Comic {
+            let thumbnailUrl: String
+        }
+        struct Event {
+            let thumbnailUrl: String
+        }
+        struct Series {
+            let thumbnailUrl: String
+        }
+        struct Story {
+            let thumbnailUrl: String
+        }
+        
     }
     
 }

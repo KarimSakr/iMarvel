@@ -15,7 +15,23 @@ import RxSwift
 protocol DetailsBusinessLogic {
     func fetchDetails(id: Int, completion: @escaping () -> Void)
     
+    func fetchComics(id: Int, completion: @escaping () -> Void)
+    
+    func fetchStories(id: Int, completion: @escaping () -> Void)
+    
+    func fetchSeries(id: Int, completion: @escaping () -> Void)
+    
+    func fetchEvents(id: Int, completion: @escaping () -> Void)
+    
     func getCharacter() -> DetailsModels.ViewModels.Character
+    
+    func getComics() -> [DetailsModels.ViewModels.Comic]
+    
+    func getSeries() -> [DetailsModels.ViewModels.Series]
+    
+    func getStories() -> [DetailsModels.ViewModels.Story]
+    
+    func getEvents() -> [DetailsModels.ViewModels.Event]
 }
 
 protocol DetailsDataStore {
@@ -23,11 +39,17 @@ protocol DetailsDataStore {
 }
 
 class DetailsInteractor: DetailsBusinessLogic, DetailsDataStore {
+    
     var presenter: DetailsPresentationLogic?
     
     private var bag = DisposeBag()
     
     var character = DetailsModels.ViewModels.Character(name: "", id: "", thumbnailUrl: "", desription: "")
+    
+    var comics = [DetailsModels.ViewModels.Comic]()
+    var stories = [DetailsModels.ViewModels.Story]()
+    var series = [DetailsModels.ViewModels.Series]()
+    var events = [DetailsModels.ViewModels.Event]()
     
     func fetchDetails(id: Int, completion: @escaping () -> Void) {
         APIClient.shared.request(.fetchDetails(id: id))
@@ -39,12 +61,90 @@ class DetailsInteractor: DetailsBusinessLogic, DetailsDataStore {
                     character = presenter.didGetCharacters(model)
                     completion()
                 case .failure(let error):
-                    break // handle error
+                    presenter.showError(error: error)
+                }
+            }.disposed(by: bag)
+    }
+    
+    func fetchComics(id: Int, completion: @escaping () -> Void) {
+        APIClient.shared.request(.fetchComics(id: id))
+            .subscribe { [weak self] (event:Result<Response<[Comic]>,Error>) in
+                guard let self = self else { return }
+                guard let presenter = presenter else { return }
+                switch event {
+                case .success(let model):
+                    comics = presenter.didGetComics(model)
+                    completion()
+                case .failure(let error):
+                    presenter.showError(error: error)
+                }
+            }.disposed(by: bag)
+    }
+    
+    func fetchStories(id: Int, completion: @escaping () -> Void) {
+        APIClient.shared.request(.fetchStories(id: id))
+            .subscribe { [weak self] (event:Result<Response<[Story]>,Error>) in
+                guard let self = self else { return }
+                guard let presenter = presenter else { return }
+                switch event {
+                case .success(let model):
+                    stories = presenter.didGetStories(model)
+                    completion()
+                case .failure(let error):
+                    presenter.showError(error: error)
+                }
+            }.disposed(by: bag)
+    }
+    
+    
+    func fetchSeries(id: Int, completion: @escaping () -> Void) {
+        APIClient.shared.request(.fetchSeries(id: id))
+            .subscribe { [weak self] (event:Result<Response<[Series]>,Error>) in
+                guard let self = self else { return }
+                guard let presenter = presenter else { return }
+                switch event {
+                case .success(let model):
+                    series = presenter.didGetSeries(model)
+                    completion()
+                case .failure(let error):
+                    presenter.showError(error: error)
+                }
+            }.disposed(by: bag)
+    }
+    
+    
+    
+    func fetchEvents(id: Int, completion: @escaping () -> Void) {
+        APIClient.shared.request(.fetchEvents(id: id))
+            .subscribe { [weak self] (event:Result<Response<[Event]>,Error>) in
+                guard let self = self else { return }
+                guard let presenter = presenter else { return }
+                switch event {
+                case .success(let model):
+                    events = presenter.didGetEvents(model)
+                    completion()
+                case .failure(let error):
+                    presenter.showError(error: error)
                 }
             }.disposed(by: bag)
     }
     
     func getCharacter() -> DetailsModels.ViewModels.Character {
         return character
+    }
+    func getComics() -> [DetailsModels.ViewModels.Comic] {
+        return comics
+    }
+    
+    func getSeries() -> [DetailsModels.ViewModels.Series] {
+        return series
+    }
+    
+    func getStories() -> [DetailsModels.ViewModels.Story] {
+        return stories
+    }
+    
+    func getEvents() -> [DetailsModels.ViewModels.Event] {
+        return events
     }
 }

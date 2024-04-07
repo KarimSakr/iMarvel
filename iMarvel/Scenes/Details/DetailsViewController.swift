@@ -15,6 +15,8 @@ import SDWebImage
 
 protocol DetailsDisplayLogic: AnyObject {
     
+    func showError(error: Error)
+    
 }
 
 class DetailsViewController: UIViewController, DetailsDisplayLogic {
@@ -79,7 +81,7 @@ class DetailsViewController: UIViewController, DetailsDisplayLogic {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
+//        collectionView.backgroundColor = .systemBackground
         
         collectionView.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
         
@@ -101,7 +103,7 @@ class DetailsViewController: UIViewController, DetailsDisplayLogic {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
+//        collectionView.backgroundColor = .systemBackground
         
         collectionView.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
         
@@ -123,7 +125,7 @@ class DetailsViewController: UIViewController, DetailsDisplayLogic {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
+//        collectionView.backgroundColor = .systemBackground
         
         collectionView.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
         
@@ -145,7 +147,7 @@ class DetailsViewController: UIViewController, DetailsDisplayLogic {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
+//        collectionView.backgroundColor = .systemBackground
         
         collectionView.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
         
@@ -256,6 +258,22 @@ extension DetailsViewController {
                                            placeholderImage: nil,
                                            options: [.scaleDownLargeImages])
         }
+        
+        interactor?.fetchComics(id: id!, completion: {
+            self.comicsCollection.reloadData()
+        })
+        
+        interactor?.fetchEvents(id: id!, completion: {
+            self.eventsCollection.reloadData()
+        })
+        
+        interactor?.fetchSeries(id: id!, completion: {
+            self.seriesCollection.reloadData()
+        })
+        
+        interactor?.fetchStories(id: id!, completion: {
+            self.storiesCollection.reloadData()
+        })
     }
 }
 
@@ -304,20 +322,56 @@ extension DetailsViewController {
     }
 }
 
+extension DetailsViewController {
+    func showError(error: Error) {
+        AppSnackBar.make(in: self.view, message: "Something went wrong", duration: .lengthShort).show()
+    }
+}
+
 //MARK: - UICollectionViewDelegate | UICollectionViewDelegate
 extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        switch collectionView {
+            case comicsCollection:
+                return interactor?.getComics().count ?? 0
+            case seriesCollection:
+                return interactor?.getSeries().count ?? 0
+            case eventsCollection:
+                return interactor?.getEvents().count ?? 0
+            case storiesCollection:
+                return interactor?.getStories().count ?? 0
+            default:
+                return 0
+            }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell else {
-            fatalError("Failed to dequeue CoverCollectionViewCell in DetailViewController")
+        var cell: CoverCollectionViewCell!
+        
+        switch collectionView {
+            
+        case comicsCollection:
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
+            
+            cell.configure(url: interactor?.getComics()[indexPath.item].thumbnailUrl ?? "")
+            
+        case seriesCollection:
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
+            cell.configure(url: interactor?.getSeries()[indexPath.item].thumbnailUrl ?? "")
+            
+        case eventsCollection:
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
+            cell.configure(url: interactor?.getEvents()[indexPath.item].thumbnailUrl ?? "")
+            
+        case storiesCollection:
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
+            cell.configure(url: interactor?.getStories()[indexPath.item].thumbnailUrl ?? "")
+        default:
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
         }
         
-        //configure
         return cell
         
     }
