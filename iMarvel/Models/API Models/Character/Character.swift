@@ -58,4 +58,15 @@ struct Character: Decodable {
         
     }
     
+    private static let db = LocalDatabaseManager.shared
+    func cache() {
+        
+        guard let character = Character.db.add(CharacterCD.self) else { return }
+        character.id = id
+        character.name = name
+        character.thumbnailURL = thumbnail.path + "." + thumbnail.ext
+        
+        Character.db.save()
+    }
+    
 }
