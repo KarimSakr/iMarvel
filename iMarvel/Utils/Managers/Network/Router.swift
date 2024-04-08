@@ -15,7 +15,8 @@ enum Router: URLRequestConvertible {
          fetchComics(id: Int),
          fetchStories(id: Int),
          fetchSeries(id: Int),
-         fetchEvents(id: Int)
+         fetchEvents(id: Int),
+         fetchCharacterListByName(skip: Int, limit: Int, name: String)
     
     var baseUrl: String {
         return Constants.Url.BaseUrl
@@ -23,7 +24,7 @@ enum Router: URLRequestConvertible {
     
     var path: String {
         switch self {
-        case .fetchCharacterList:
+        case .fetchCharacterList, .fetchCharacterListByName:
             return Constants.Url.Endpoint.fetchCharacterList
             
         case.fetchDetails(let id):
@@ -92,6 +93,16 @@ enum Router: URLRequestConvertible {
                 "apikey" : publicKey,
                 "hash"   : md5Hash,
             ]
+            
+        case .fetchCharacterListByName(let skip, let limit, let name):
+            return [
+                "nameStartsWith": name,
+                "limit" : String(limit),
+                "offset": String(skip),
+                "ts"    : String(timeStamp),
+                "apikey": publicKey,
+                "hash"  : md5Hash,
+            ]
         }
     }
     
@@ -104,7 +115,7 @@ enum Router: URLRequestConvertible {
     
     var type: Decodable.Type {
         switch self {
-        case .fetchCharacterList, .fetchDetails:
+        case .fetchCharacterList, .fetchDetails, .fetchCharacterListByName:
             return Response<[Character]>.self
         case .fetchComics:
             return Response<[Comic]>.self

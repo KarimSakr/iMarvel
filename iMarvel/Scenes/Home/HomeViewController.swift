@@ -12,6 +12,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 protocol HomeDisplayLogic: AnyObject {
     
@@ -22,6 +23,15 @@ class HomeViewController: UIViewController, HomeDisplayLogic {
     
     var interactor: HomeBusinessLogic?
     var router: HomeRouter?
+    
+    private var bag = DisposeBag()
+    
+    private lazy var searchController: UISearchController = {
+       let search = UISearchController(searchResultsController: nil)
+        search.obscuresBackgroundDuringPresentation = false
+        search.searchBar.placeholder = "Search character..."
+        return search
+    }()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -56,7 +66,7 @@ extension HomeViewController {
         super.viewDidLoad()
         setup()
         setupViews()
-        fetchCharacters()
+        setupSearchBar()
     }
     
     override func viewDidLayoutSubviews() {
@@ -65,7 +75,7 @@ extension HomeViewController {
         NSLayoutConstraint.activate([
             
             //collectionView constarints
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -104,6 +114,27 @@ extension HomeViewController {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         
+    }
+    
+    private func setupSearchBar() {
+        navigationItem.searchController = searchController
+        searchController.searchBar
+            .rx
+            .text
+            .orEmpty
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .subscribe { [unowned self] (query) in
+                guard let interactor = interactor else { return }
+                guard let element = query.event.element else { return }
+                if element.isEmpty {
+                    self.fetchCharacters()
+                } else {
+                    interactor.fetchCharactersByName(skip: 0, limit: 20, name: element) {
+                        self.collectionView.reloadData()
+                    }
+                }
+            }.disposed(by: bag)
     }
 }
 
@@ -144,9 +175,16 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-        interactor!.fetchCharacterIfNeeded(index: indexPath.item) {
-            collectionView.reloadData()
+        guard let searchBarText = searchController.searchBar.text else { return }
+        guard let interactor = interactor else { return }
+        if searchBarText.isEmpty {
+            interactor.fetchCharacterIfNeeded(index: indexPath.item) {
+                collectionView.reloadData()
+            }
+        } else {
+            interactor.fetchCharacterIfNeeded(withName: searchBarText, index: indexPath.item) {
+                collectionView.reloadData()
+            }
         }
     }
     
