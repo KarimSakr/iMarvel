@@ -21,6 +21,10 @@ protocol HomeBusinessLogic {
     
     func fetchCharacterIfNeeded(index: Int, completion: @escaping () -> Void)
     
+    func fetchCharactersByName(skip:Int ,limit: Int,name: String, completion: @escaping () -> Void)
+    
+    func fetchCharacterIfNeeded(withName: String, index: Int, completion: @escaping () -> Void)
+    
     func refreshList(completion: @escaping () -> Void)
     
     func getCharacters() -> [HomeModels.ViewModels.Character]
@@ -33,11 +37,13 @@ protocol HomeDataStore {
 
 class HomeInteractor: HomeBusinessLogic, HomeDataStore {
     
+    
     var presenter: HomePresentationLogic?
     
     var characters: [HomeModels.ViewModels.Character] = [HomeModels.ViewModels.Character]()
     
     private var elementsLeft: Int = 1
+    private var elementsLeftForName: Int = 1 // elements left for when searching by name
     
     private var bag = DisposeBag()
     
@@ -63,6 +69,25 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
             }.disposed(by: bag)
     }
     
+    func fetchCharactersByName(skip:Int ,limit: Int,name: String, completion: @escaping () -> Void) {
+        APIClient.shared.request(.fetchCharacterListByName(skip: skip, limit: limit, name: name))
+            .subscribe { [weak self] (event:Result<Response<[Character]>, Error>) in
+                guard let self = self else { return }
+                guard let presenter = presenter else { return }
+                switch event{
+                case .success(let data):
+                    if skip == 0 { // check if it is the first entry if searchbar
+                        self.characters = []
+                    }
+                    self.elementsLeftForName = data.data.total - self.characters.count
+                    self.characters.append(contentsOf: presenter.didGetNamedCharacters(data))
+                    completion()
+                case .failure(let error):
+                    presenter.showError(error: error)
+                }
+            }.disposed(by: bag)
+    }
+    
     func fetchCachedCharacterList(completion: @escaping () -> Void) {
         let cachedCharcter = db.fetch(CharacterCD.self)
         
@@ -80,6 +105,14 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
         guard index == characters.count - 3, elementsLeft != 0 else { return }
         
         fetchCharacterList(skip: characters.count, limit: 20) {
+            completion()
+        }
+    }
+    
+    func fetchCharacterIfNeeded(withName: String, index: Int, completion: @escaping () -> Void) {
+        guard index == characters.count - 3, elementsLeftForName != 0 else { return }
+        
+        fetchCharactersByName(skip: characters.count, limit: 20, name: withName) {
             completion()
         }
     }

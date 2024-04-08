@@ -15,6 +15,7 @@ import UIKit
 protocol HomePresentationLogic {
     
     func didGetCharacters(_ model: Response<[Character]>) -> [HomeModels.ViewModels.Character]
+    func didGetNamedCharacters(_ model: Response<[Character]>) -> [HomeModels.ViewModels.Character]
     func didGetCachedCharacters(_ cachedCharacters: [CharacterCD]) -> [HomeModels.ViewModels.Character]
     
     func showError(error: Error)
@@ -40,6 +41,14 @@ class HomePresenter: HomePresentationLogic {
         return HomeModels.ViewModels.Character(id: character.id,
                                                name: character.name,
                                                thumbnailUrl: character.thumbnail.path + "." + character.thumbnail.ext)
+    }
+    
+    func didGetNamedCharacters(_ model: Response<[Character]>) -> [HomeModels.ViewModels.Character] {
+        guard model.code == 200, let characters = model.data.results else {
+            return []
+        }
+        
+        return characters.map{ self.createSingleCharacter(character: $0) }
     }
     
     func didGetCachedCharacters(_ cachedCharacters: [CharacterCD]) -> [HomeModels.ViewModels.Character] {
