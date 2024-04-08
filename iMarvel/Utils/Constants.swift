@@ -13,4 +13,6 @@ struct Constants {
         static let apiKey = "apiKey"
         static let privateKey = "privateKey"
     }
+    
+    static let cornerRadius = 8.0
 }

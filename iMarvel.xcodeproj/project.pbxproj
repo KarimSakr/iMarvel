@@ -54,6 +54,11 @@
 		7FD9921C2BC1EF7400AC62B9 /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD9921B2BC1EF7400AC62B9 /* Story.swift */; };
 		7FD9921F2BC2EEDC00AC62B9 /* LocalDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD9921E2BC2EEDC00AC62B9 /* LocalDatabaseManager.swift */; };
 		7FD992212BC2F9BF00AC62B9 /* CharacterCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD992202BC2F9BF00AC62B9 /* CharacterCD.swift */; };
+		7FF103542BC3F70D00E97CDD /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF1034F2BC3F70D00E97CDD /* LoginPresenter.swift */; };
+		7FF103552BC3F70D00E97CDD /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF103502BC3F70D00E97CDD /* LoginRouter.swift */; };
+		7FF103562BC3F70D00E97CDD /* LoginModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF103512BC3F70D00E97CDD /* LoginModels.swift */; };
+		7FF103572BC3F70D00E97CDD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF103522BC3F70D00E97CDD /* LoginViewController.swift */; };
+		7FF103582BC3F70D00E97CDD /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF103532BC3F70D00E97CDD /* LoginInteractor.swift */; };
 		EF0A0CEF2BC1632A00348D8C /* SnackBar in Frameworks */ = {isa = PBXBuildFile; productRef = EF0A0CEE2BC1632A00348D8C /* SnackBar */; };
 		EF0A0CF22BC1635300348D8C /* AppSnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0A0CF12BC1635300348D8C /* AppSnackBar.swift */; };
 /* End PBXBuildFile section */
@@ -99,6 +104,11 @@
 		7FD9921B2BC1EF7400AC62B9 /* Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
 		7FD9921E2BC2EEDC00AC62B9 /* LocalDatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDatabaseManager.swift; sourceTree = "<group>"; };
 		7FD992202BC2F9BF00AC62B9 /* CharacterCD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCD.swift; sourceTree = "<group>"; };
+		7FF1034F2BC3F70D00E97CDD /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
+		7FF103502BC3F70D00E97CDD /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
+		7FF103512BC3F70D00E97CDD /* LoginModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModels.swift; sourceTree = "<group>"; };
+		7FF103522BC3F70D00E97CDD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		7FF103532BC3F70D00E97CDD /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		EF0A0CF12BC1635300348D8C /* AppSnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSnackBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,8 +155,8 @@
 		7F1AFB7C2BBF07B5000DA23A /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				7F1AFB7E2BBF0814000DA23A /* Home */,
-				7FD992072BC171B000AC62B9 /* Details */,
+				7FF1034C2BC3F6E200E97CDD /* Main Scenes */,
+				7FF1034D2BC3F6F400E97CDD /* Onboarding */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -322,6 +332,35 @@
 			path = "Local Database";
 			sourceTree = "<group>";
 		};
+		7FF1034C2BC3F6E200E97CDD /* Main Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				7F1AFB7E2BBF0814000DA23A /* Home */,
+				7FD992072BC171B000AC62B9 /* Details */,
+			);
+			path = "Main Scenes";
+			sourceTree = "<group>";
+		};
+		7FF1034D2BC3F6F400E97CDD /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				7FF1034E2BC3F6FD00E97CDD /* Login */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		7FF1034E2BC3F6FD00E97CDD /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				7FF1034F2BC3F70D00E97CDD /* LoginPresenter.swift */,
+				7FF103502BC3F70D00E97CDD /* LoginRouter.swift */,
+				7FF103512BC3F70D00E97CDD /* LoginModels.swift */,
+				7FF103522BC3F70D00E97CDD /* LoginViewController.swift */,
+				7FF103532BC3F70D00E97CDD /* LoginInteractor.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		EF0A0CF02BC1633300348D8C /* Snackbar */ = {
 			isa = PBXGroup;
 			children = (
@@ -429,9 +468,12 @@
 				7FD992162BC1EC2700AC62B9 /* Comic.swift in Sources */,
 				7F1AFB882BBF083E000DA23A /* HomeModels.swift in Sources */,
 				7F9C52CC2BBEFD55002EC53D /* iMarvel.xcdatamodeld in Sources */,
+				7FF103552BC3F70D00E97CDD /* LoginRouter.swift in Sources */,
 				7F1AFB8E2BBF0AB7000DA23A /* Router.swift in Sources */,
 				7F1AFB7A2BBF0782000DA23A /* Constants.swift in Sources */,
 				7F1AFB942BBF2D2C000DA23A /* Response.swift in Sources */,
+				7FF103562BC3F70D00E97CDD /* LoginModels.swift in Sources */,
+				7FF103542BC3F70D00E97CDD /* LoginPresenter.swift in Sources */,
 				7F1AFBA32BBF3398000DA23A /* Archive.swift in Sources */,
 				7F1AFB8A2BBF083E000DA23A /* HomeInteractor.swift in Sources */,
 				7F1AFB902BBF0AC0000DA23A /* APIClient.swift in Sources */,
@@ -441,9 +483,11 @@
 				7F1AFB9B2BBF3174000DA23A /* Thumbnail.swift in Sources */,
 				7FD9921A2BC1EEE700AC62B9 /* Series.swift in Sources */,
 				7F1AFBAE2BBF433B000DA23A /* Bundle.swift in Sources */,
+				7FF103572BC3F70D00E97CDD /* LoginViewController.swift in Sources */,
 				7F9C52C22BBEFD55002EC53D /* AppDelegate.swift in Sources */,
 				7F1AFBB32BC007CF000DA23A /* CharacterCardCollectionViewCell.swift in Sources */,
 				7F1AFB992BBF3078000DA23A /* Character.swift in Sources */,
+				7FF103582BC3F70D00E97CDD /* LoginInteractor.swift in Sources */,
 				7F1AFB892BBF083E000DA23A /* HomeViewController.swift in Sources */,
 				7F1AFB852BBF083E000DA23A /* HomePresenter.swift in Sources */,
 				7FD992132BC1A4E800AC62B9 /* CoverCollectionViewCell.swift in Sources */,
