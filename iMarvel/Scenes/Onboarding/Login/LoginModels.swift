@@ -16,7 +16,17 @@ struct LoginModels {
     
     // requests here
     struct Request {
-        
+        struct Login {
+            let email: String
+            let password: String
+            
+            func isValid() -> Bool {
+                guard password.count > 6, email.isEmailValid() else {
+                    return false
+                }
+                return true
+            }
+        }
     }
     
     struct ViewModels {

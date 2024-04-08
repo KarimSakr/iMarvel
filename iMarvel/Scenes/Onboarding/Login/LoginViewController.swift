@@ -26,7 +26,7 @@ class LoginViewController: UIViewController, LoginDisplayLogic {
     private let bag = DisposeBag()
     
     
-    private lazy var usernameEmailField: UITextField = {
+    private lazy var emailField: UITextField = {
         let field = UITextField()
         field.placeholder = "Username or Email..."
         field.returnKeyType = .next
@@ -122,14 +122,14 @@ extension LoginViewController {
             imageView.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
                 
             
-            // Username/Email Field constraints
-            usernameEmailField.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 40),
-            usernameEmailField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            usernameEmailField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
-            usernameEmailField.heightAnchor.constraint(equalToConstant: 52),
+            // Email Field constraints
+            emailField.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 40),
+            emailField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+            emailField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            emailField.heightAnchor.constraint(equalToConstant: 52),
             
             // Password Field constraints
-            passwordField.topAnchor.constraint(equalTo: usernameEmailField.bottomAnchor, constant: 15),
+            passwordField.topAnchor.constraint(equalTo: emailField.bottomAnchor, constant: 15),
             passwordField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
             passwordField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             passwordField.heightAnchor.constraint(equalToConstant: 52),
@@ -177,7 +177,21 @@ extension LoginViewController {
 extension LoginViewController {
     
     @objc private func didTapLoginButton() {
-
+        guard let interactor = interactor else { return }
+        let request = LoginModels.Request.Login(email: emailField.text ?? "",
+                                                password: passwordField.text ?? "")
+        
+        interactor.login(request: request)
+            .subscribe { event in
+                guard let router = self.router else { return }
+                switch event {
+                case .success(_):
+                    router.dismissLoginScreen()
+                case .failure(_):
+                    self.showSnackbar(with: "Invalid credentials")
+                }
+                
+            } .disposed(by: bag)
         
     }
     func addMainSubviews() {
@@ -185,7 +199,7 @@ extension LoginViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(self.headerView)
         view.addSubview(self.imageView)
-        view.addSubview(self.usernameEmailField)
+        view.addSubview(self.emailField)
         view.addSubview(self.passwordField)
         view.addSubview(self.loginButton)
         view.addSubview(self.activityIndicator)
@@ -196,7 +210,7 @@ extension LoginViewController {
     }
     
     func startLoading() {
-        usernameEmailField.isHidden  = true
+        emailField.isHidden  = true
         passwordField.isHidden       = true
         loginButton.isHidden         = true
         activityIndicator.isHidden   = false
@@ -206,7 +220,7 @@ extension LoginViewController {
     
     func stopLoading() {
         
-        usernameEmailField.isHidden  = false
+        emailField.isHidden  = false
         passwordField.isHidden       = false
         loginButton.isHidden         = false
         activityIndicator.isHidden   = true
@@ -225,7 +239,7 @@ extension LoginViewController {
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        if textField == usernameEmailField {
+        if textField == emailField {
             passwordField.becomeFirstResponder()
         } else if textField == passwordField{
             didTapLoginButton()

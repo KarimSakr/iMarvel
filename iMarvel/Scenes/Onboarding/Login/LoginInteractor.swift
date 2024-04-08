@@ -11,23 +11,33 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol LoginBusinessLogic {
-  
+    func login(request: LoginModels.Request.Login) -> Single<Void>
 }
 
 protocol LoginDataStore {
-  //var name: String { get set }
 }
 
 class LoginInteractor: LoginBusinessLogic, LoginDataStore {
-  var presenter: LoginPresentationLogic?
-  //var name: String = ""
-  
-  // MARK: Do something
-  
-  func doSomething(request: LoginModels.Request) {
+    var presenter: LoginPresentationLogic?
     
     
-  }
+    func login(request: LoginModels.Request.Login) -> Single<Void> {
+        
+        return Single.create { single in
+            guard request.isValid() else {
+                single(.failure(LoginError.invalidCredentials))
+                return Disposables.create()
+            }
+            Persistence.shared.save(key: Constants.PersistenceKeys.isUserLoggedIn, object: true)
+            single(.success({}()))
+            return Disposables.create()
+        }
+    }
+}
+
+enum LoginError: Error {
+    case invalidCredentials
 }

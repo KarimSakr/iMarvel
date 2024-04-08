@@ -15,4 +15,8 @@ struct Constants {
     }
     
     static let cornerRadius = 8.0
+    
+    struct PersistenceKeys {
+        static let isUserLoggedIn = "IS_USER_LOGGED_IN"
+    }
 }

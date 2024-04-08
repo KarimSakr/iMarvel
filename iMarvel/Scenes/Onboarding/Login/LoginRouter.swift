@@ -13,15 +13,20 @@
 import UIKit
 
 @objc protocol LoginRoutingLogic {
-  
+    func dismissLoginScreen()
 }
 
 protocol LoginDataPassing {
-  var dataStore: LoginDataStore? { get }
+    var dataStore: LoginDataStore? { get }
 }
 
 class LoginRouter: NSObject, LoginRoutingLogic, LoginDataPassing {
-  weak var viewController: LoginViewController?
-  var dataStore: LoginDataStore?
-  
+    weak var viewController: LoginViewController?
+    var dataStore: LoginDataStore?
+    
+    func dismissLoginScreen() {
+        guard let viewController = viewController else { return }
+        viewController.dismiss(animated: true, completion: nil)
+    }
+    
 }

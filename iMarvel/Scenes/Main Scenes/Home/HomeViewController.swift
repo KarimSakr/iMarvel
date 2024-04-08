@@ -66,7 +66,7 @@ extension HomeViewController {
         super.viewDidLoad()
         setup()
         setupViews()
-        setupSearchBar()
+        setupNavigationBar()
     }
     
     override func viewDidLayoutSubviews() {
@@ -88,9 +88,11 @@ extension HomeViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let loginVC = LoginViewController()
-        loginVC.modalPresentationStyle = .fullScreen
-        self.present(loginVC, animated: false)
+        guard let interactor = interactor else { return }
+        guard let router = router else { return }
+        if !interactor.isUserLoggedIn() {
+            router.goToLoginScreen()
+        }
     }
 }
 
@@ -123,7 +125,9 @@ extension HomeViewController {
         
     }
     
-    private func setupSearchBar() {
+    private func setupNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "rectangle.portrait.and.arrow.forward"), style: .plain, target: self, action: #selector(logOutButtonTapped))
+
         navigationItem.searchController = searchController
         searchController.searchBar
             .rx
@@ -162,6 +166,13 @@ extension HomeViewController {
                 self.collectionView.reloadData()
             }
         }.show()
+    }
+    
+    @objc func logOutButtonTapped() {
+        guard let interactor = interactor else { return }
+        guard let router = router else { return }
+        interactor.logOut()
+        router.goToLoginScreen()
     }
 }
 

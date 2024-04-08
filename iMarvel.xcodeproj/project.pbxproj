@@ -59,6 +59,7 @@
 		7FF103562BC3F70D00E97CDD /* LoginModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF103512BC3F70D00E97CDD /* LoginModels.swift */; };
 		7FF103572BC3F70D00E97CDD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF103522BC3F70D00E97CDD /* LoginViewController.swift */; };
 		7FF103582BC3F70D00E97CDD /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF103532BC3F70D00E97CDD /* LoginInteractor.swift */; };
+		7FF1035B2BC4020200E97CDD /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF1035A2BC4020200E97CDD /* Persistence.swift */; };
 		EF0A0CEF2BC1632A00348D8C /* SnackBar in Frameworks */ = {isa = PBXBuildFile; productRef = EF0A0CEE2BC1632A00348D8C /* SnackBar */; };
 		EF0A0CF22BC1635300348D8C /* AppSnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0A0CF12BC1635300348D8C /* AppSnackBar.swift */; };
 /* End PBXBuildFile section */
@@ -109,6 +110,7 @@
 		7FF103512BC3F70D00E97CDD /* LoginModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModels.swift; sourceTree = "<group>"; };
 		7FF103522BC3F70D00E97CDD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7FF103532BC3F70D00E97CDD /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
+		7FF1035A2BC4020200E97CDD /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		EF0A0CF12BC1635300348D8C /* AppSnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSnackBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -327,6 +329,7 @@
 		7FD9921D2BC2EECA00AC62B9 /* Local Database */ = {
 			isa = PBXGroup;
 			children = (
+				7FF103592BC401F100E97CDD /* UserDefaults */,
 				7FD9921E2BC2EEDC00AC62B9 /* LocalDatabaseManager.swift */,
 			);
 			path = "Local Database";
@@ -359,6 +362,14 @@
 				7FF103532BC3F70D00E97CDD /* LoginInteractor.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		7FF103592BC401F100E97CDD /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				7FF1035A2BC4020200E97CDD /* Persistence.swift */,
+			);
+			path = UserDefaults;
 			sourceTree = "<group>";
 		};
 		EF0A0CF02BC1633300348D8C /* Snackbar */ = {
@@ -478,6 +489,7 @@
 				7F1AFB8A2BBF083E000DA23A /* HomeInteractor.swift in Sources */,
 				7F1AFB902BBF0AC0000DA23A /* APIClient.swift in Sources */,
 				7F1AFBA52BBF3430000DA23A /* Urls.swift in Sources */,
+				7FF1035B2BC4020200E97CDD /* Persistence.swift in Sources */,
 				7F1AFB872BBF083E000DA23A /* HomeRouter.swift in Sources */,
 				7FD992112BC171F100AC62B9 /* DetailsInteractor.swift in Sources */,
 				7F1AFB9B2BBF3174000DA23A /* Thumbnail.swift in Sources */,
