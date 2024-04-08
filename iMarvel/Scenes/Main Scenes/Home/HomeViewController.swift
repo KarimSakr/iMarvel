@@ -104,9 +104,11 @@ extension HomeViewController {
         let interactor = HomeInteractor()
         let presenter = HomePresenter()
         let router = HomeRouter()
+        let repo = HomeRepository()
         viewController.interactor = interactor
         viewController.router = router
         interactor.presenter = presenter
+        interactor.repo = repo
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataStore = interactor

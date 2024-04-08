@@ -43,6 +43,7 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
     
     
     var presenter: HomePresentationLogic?
+    var repo: HomeRepositoryProtocol?
     
     var characters: [HomeModels.ViewModels.Character] = [HomeModels.ViewModels.Character]()
     
@@ -58,7 +59,8 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
     }
     
     func fetchCharacterList(skip:Int, limit:Int, completion: @escaping () -> Void) {
-        APIClient.shared.request(.fetchCharacterList(skip: skip, limit: limit))
+        guard let repo = repo else { return }
+        repo.fetch(.fetchCharacterList(skip: skip, limit: limit))
             .subscribe { [weak self] (event:Result<Response<[Character]>, Error>) in
                 guard let self = self else { return }
                 guard let presenter = presenter else { return }
@@ -74,7 +76,8 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
     }
     
     func fetchCharactersByName(skip:Int ,limit: Int,name: String, completion: @escaping () -> Void) {
-        APIClient.shared.request(.fetchCharacterListByName(skip: skip, limit: limit, name: name))
+        guard let repo = repo else { return }
+        repo.fetch(.fetchCharacterListByName(skip: skip, limit: limit, name: name))
             .subscribe { [weak self] (event:Result<Response<[Character]>, Error>) in
                 guard let self = self else { return }
                 guard let presenter = presenter else { return }
@@ -93,9 +96,10 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
     }
     
     func fetchCachedCharacterList(completion: @escaping () -> Void) {
+        guard let repo = repo else { return }
         guard let presenter = presenter else { return }
         
-        let cachedCharcter = db.fetch(CharacterCD.self)
+        let cachedCharcter = repo.fetchCache()
         
         characters = presenter.didGetCachedCharacters(cachedCharcter)
         completion()
@@ -132,11 +136,12 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
         }
     }
     
-    func isUserLoggedIn() -> Bool {
-        return Persistence.shared.getData(key: Constants.PersistenceKeys.isUserLoggedIn) as? Bool ?? false
+    func isUserLoggedIn() -> Bool {guard let repo = repo else { return false }
+        return repo.isUserLoggedIn()
     }
     
     func logOut() {
-        Persistence.shared.save(key: Constants.PersistenceKeys.isUserLoggedIn, object: false)
+        guard let repo = repo else { return }
+        repo.logOut()
     }
 }
