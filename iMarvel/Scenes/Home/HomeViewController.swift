@@ -161,7 +161,8 @@ extension HomeViewController {
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return interactor!.getCharacters().count
+        guard let interactor = interactor else { return 0}
+        return interactor.getCharacters().count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -189,7 +190,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        router?.goToDetailsVC(collectionView, didSelectItemAt: indexPath)
+        guard let router = router else { return }
+        router.goToDetailsVC(collectionView, didSelectItemAt: indexPath)
     }
 }

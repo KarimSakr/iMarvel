@@ -57,14 +57,14 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
         APIClient.shared.request(.fetchCharacterList(skip: skip, limit: limit))
             .subscribe { [weak self] (event:Result<Response<[Character]>, Error>) in
                 guard let self = self else { return }
-                
+                guard let presenter = presenter else { return }
                 switch event{
                 case .success(let data):
                     self.elementsLeft = data.data.total - self.characters.count
-                    self.characters.append(contentsOf: self.presenter?.didGetCharacters(data) ?? [])
+                    self.characters.append(contentsOf: presenter.didGetCharacters(data))
                     completion()
                 case .failure(let error):
-                    presenter?.showError(error: error)
+                    presenter.showError(error: error)
                 }
             }.disposed(by: bag)
     }
@@ -89,9 +89,11 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
     }
     
     func fetchCachedCharacterList(completion: @escaping () -> Void) {
+        guard let presenter = presenter else { return }
+        
         let cachedCharcter = db.fetch(CharacterCD.self)
         
-        characters = presenter?.didGetCachedCharacters(cachedCharcter) ?? []
+        characters = presenter.didGetCachedCharacters(cachedCharcter)
         completion()
         
         if characters.isEmpty {

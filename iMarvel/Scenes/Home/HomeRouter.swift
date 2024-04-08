@@ -25,6 +25,8 @@ class HomeRouter: NSObject, HomeRoutingLogic, HomeDataPassing {
     var dataStore: HomeDataStore?
     
     func goToDetailsVC(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let viewController = viewController else { return }
         let cell = collectionView.cellForItem(at: indexPath) as? CharacterCardCollectionViewCell
         
         let id = cell?.characterId
@@ -35,7 +37,7 @@ class HomeRouter: NSObject, HomeRoutingLogic, HomeDataPassing {
         
         vc.title = cell?.characterNameLabel.text
         
-        viewController?.navigationController?.pushViewController(vc, animated: true)
+        viewController.navigationController?.pushViewController(vc, animated: true)
 
     }
     

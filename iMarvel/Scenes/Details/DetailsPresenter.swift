@@ -87,7 +87,8 @@ class DetailsPresenter: DetailsPresentationLogic {
     }
     
     func showError(error: any Error) {
-        viewController?.showError(error: error)
+        guard let viewController = viewController else { return }
+        viewController.showError(error: error)
     }
     
    

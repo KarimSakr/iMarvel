@@ -249,30 +249,7 @@ extension DetailsViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        interactor?.fetchDetails(id: id!) {
-            guard let character = self.interactor?.getCharacter() else { return }
-            self.idLabel.text = character.id
-            self.descriptionLabel.text = character.desription
-            self.characterIcon.sd_setImage(with: URL(string: character.thumbnailUrl),
-                                           placeholderImage: nil,
-                                           options: [.scaleDownLargeImages])
-        }
-        
-        interactor?.fetchComics(id: id!, completion: {
-            self.comicsCollection.reloadData()
-        })
-        
-        interactor?.fetchEvents(id: id!, completion: {
-            self.eventsCollection.reloadData()
-        })
-        
-        interactor?.fetchSeries(id: id!, completion: {
-            self.seriesCollection.reloadData()
-        })
-        
-        interactor?.fetchStories(id: id!, completion: {
-            self.storiesCollection.reloadData()
-        })
+        fetchAllDetails()
     }
 }
 
@@ -324,7 +301,37 @@ extension DetailsViewController {
     }
 }
 
+//MARK: - Functions
 extension DetailsViewController {
+    
+    func fetchAllDetails() {
+        guard let interactor = interactor else { return }
+        interactor.fetchDetails(id: id!) {
+            guard let character = self.interactor?.getCharacter() else { return }
+            self.idLabel.text = character.id
+            self.descriptionLabel.text = character.desription
+            self.characterIcon.sd_setImage(with: URL(string: character.thumbnailUrl),
+                                           placeholderImage: nil,
+                                           options: [.scaleDownLargeImages])
+        }
+        
+        interactor.fetchComics(id: id!, completion: {
+            self.comicsCollection.reloadData()
+        })
+        
+        interactor.fetchEvents(id: id!, completion: {
+            self.eventsCollection.reloadData()
+        })
+        
+        interactor.fetchSeries(id: id!, completion: {
+            self.seriesCollection.reloadData()
+        })
+        
+        interactor.fetchStories(id: id!, completion: {
+            self.storiesCollection.reloadData()
+        })
+    }
+    
     func showError(error: Error) {
         AppSnackBar.make(in: self.view, message: "Something went wrong", duration: .lengthShort).show()
     }
@@ -352,24 +359,29 @@ extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         var cell: CoverCollectionViewCell!
         
+        guard let interactor = interactor else {
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
+            return cell
+        }
+        
         switch collectionView {
             
         case comicsCollection:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
             
-            cell.configure(url: interactor?.getComics()[indexPath.item].thumbnailUrl ?? "", title: interactor?.getComics()[indexPath.item].title ?? "")
+            cell.configure(url: interactor.getComics()[indexPath.item].thumbnailUrl, title: interactor.getComics()[indexPath.item].title)
             
         case seriesCollection:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
-            cell.configure(url: interactor?.getSeries()[indexPath.item].thumbnailUrl ?? "", title: interactor?.getSeries()[indexPath.item].title ?? "")
+            cell.configure(url: interactor.getSeries()[indexPath.item].thumbnailUrl, title: interactor.getSeries()[indexPath.item].title)
             
         case eventsCollection:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
-            cell.configure(url: interactor?.getEvents()[indexPath.item].thumbnailUrl ?? "",title: interactor?.getEvents()[indexPath.item].title ?? "")
+            cell.configure(url: interactor.getEvents()[indexPath.item].thumbnailUrl, title: interactor.getEvents()[indexPath.item].title)
             
         case storiesCollection:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
-            cell.configure(url: interactor?.getStories()[indexPath.item].thumbnailUrl ?? "",title: interactor?.getStories()[indexPath.item].title ?? "")
+            cell.configure(url: interactor.getStories()[indexPath.item].thumbnailUrl, title: interactor.getStories()[indexPath.item].title)
         default:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell
         }
