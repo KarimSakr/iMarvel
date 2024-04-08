@@ -22,16 +22,19 @@ protocol LoginDataStore {
 
 class LoginInteractor: LoginBusinessLogic, LoginDataStore {
     var presenter: LoginPresentationLogic?
+    var repo: LoginRepositoryProtocol?
     
     
     func login(request: LoginModels.Request.Login) -> Single<Void> {
-        
-        return Single.create { single in
+        return Single.create { [weak self] single in
+            guard let self = self else { single(.failure(LoginError.genericError)); return Disposables.create()}
+            guard let repo = self.repo else { single(.failure(LoginError.genericError)); return Disposables.create()}
             guard request.isValid() else {
                 single(.failure(LoginError.invalidCredentials))
                 return Disposables.create()
             }
-            Persistence.shared.save(key: Constants.PersistenceKeys.isUserLoggedIn, object: true)
+            
+            repo.save()
             single(.success({}()))
             return Disposables.create()
         }
@@ -40,4 +43,5 @@ class LoginInteractor: LoginBusinessLogic, LoginDataStore {
 
 enum LoginError: Error {
     case invalidCredentials
+    case genericError
 }

@@ -62,6 +62,7 @@
 		7FF1035B2BC4020200E97CDD /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF1035A2BC4020200E97CDD /* Persistence.swift */; };
 		7FF1035D2BC40A5F00E97CDD /* HomeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF1035C2BC40A5F00E97CDD /* HomeRepository.swift */; };
 		7FF103602BC40F4800E97CDD /* DetailsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF1035F2BC40F4800E97CDD /* DetailsRepository.swift */; };
+		7FF103622BC4114A00E97CDD /* LoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF103612BC4114A00E97CDD /* LoginRepository.swift */; };
 		EF0A0CEF2BC1632A00348D8C /* SnackBar in Frameworks */ = {isa = PBXBuildFile; productRef = EF0A0CEE2BC1632A00348D8C /* SnackBar */; };
 		EF0A0CF22BC1635300348D8C /* AppSnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0A0CF12BC1635300348D8C /* AppSnackBar.swift */; };
 /* End PBXBuildFile section */
@@ -115,6 +116,7 @@
 		7FF1035A2BC4020200E97CDD /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		7FF1035C2BC40A5F00E97CDD /* HomeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRepository.swift; sourceTree = "<group>"; };
 		7FF1035F2BC40F4800E97CDD /* DetailsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsRepository.swift; sourceTree = "<group>"; };
+		7FF103612BC4114A00E97CDD /* LoginRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRepository.swift; sourceTree = "<group>"; };
 		EF0A0CF12BC1635300348D8C /* AppSnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSnackBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -366,6 +368,7 @@
 				7FF103512BC3F70D00E97CDD /* LoginModels.swift */,
 				7FF103522BC3F70D00E97CDD /* LoginViewController.swift */,
 				7FF103532BC3F70D00E97CDD /* LoginInteractor.swift */,
+				7FF103612BC4114A00E97CDD /* LoginRepository.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -505,6 +508,7 @@
 				7F1AFBAE2BBF433B000DA23A /* Bundle.swift in Sources */,
 				7FF103572BC3F70D00E97CDD /* LoginViewController.swift in Sources */,
 				7F9C52C22BBEFD55002EC53D /* AppDelegate.swift in Sources */,
+				7FF103622BC4114A00E97CDD /* LoginRepository.swift in Sources */,
 				7F1AFBB32BC007CF000DA23A /* CharacterCardCollectionViewCell.swift in Sources */,
 				7F1AFB992BBF3078000DA23A /* Character.swift in Sources */,
 				7FF103582BC3F70D00E97CDD /* LoginInteractor.swift in Sources */,
