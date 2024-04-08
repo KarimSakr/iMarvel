@@ -41,6 +41,7 @@ protocol DetailsDataStore {
 class DetailsInteractor: DetailsBusinessLogic, DetailsDataStore {
     
     var presenter: DetailsPresentationLogic?
+    var repo: DetailsRepositoryProtocol?
     
     private var bag = DisposeBag()
     
@@ -52,7 +53,8 @@ class DetailsInteractor: DetailsBusinessLogic, DetailsDataStore {
     var events = [DetailsModels.ViewModels.Event]()
     
     func fetchDetails(id: Int, completion: @escaping () -> Void) {
-        APIClient.shared.request(.fetchDetails(id: id))
+        guard let repo = repo else { return }
+        repo.fetch(.fetchDetails(id: id))
             .subscribe { [weak self] (event:Result<Response<[Character]>,Error>) in
                 guard let self = self else { return }
                 guard let presenter = presenter else { return }
@@ -67,7 +69,8 @@ class DetailsInteractor: DetailsBusinessLogic, DetailsDataStore {
     }
     
     func fetchComics(id: Int, completion: @escaping () -> Void) {
-        APIClient.shared.request(.fetchComics(id: id))
+        guard let repo = repo else { return }
+        repo.fetch(.fetchComics(id: id))
             .subscribe { [weak self] (event:Result<Response<[Comic]>,Error>) in
                 guard let self = self else { return }
                 guard let presenter = presenter else { return }
@@ -82,7 +85,8 @@ class DetailsInteractor: DetailsBusinessLogic, DetailsDataStore {
     }
     
     func fetchStories(id: Int, completion: @escaping () -> Void) {
-        APIClient.shared.request(.fetchStories(id: id))
+        guard let repo = repo else { return }
+        repo.fetch(.fetchStories(id: id))
             .subscribe { [weak self] (event:Result<Response<[Story]>,Error>) in
                 guard let self = self else { return }
                 guard let presenter = presenter else { return }
@@ -98,7 +102,8 @@ class DetailsInteractor: DetailsBusinessLogic, DetailsDataStore {
     
     
     func fetchSeries(id: Int, completion: @escaping () -> Void) {
-        APIClient.shared.request(.fetchSeries(id: id))
+        guard let repo = repo else { return }
+        repo.fetch(.fetchSeries(id: id))
             .subscribe { [weak self] (event:Result<Response<[Series]>,Error>) in
                 guard let self = self else { return }
                 guard let presenter = presenter else { return }
@@ -115,7 +120,8 @@ class DetailsInteractor: DetailsBusinessLogic, DetailsDataStore {
     
     
     func fetchEvents(id: Int, completion: @escaping () -> Void) {
-        APIClient.shared.request(.fetchEvents(id: id))
+        guard let repo = repo else { return }
+        repo.fetch(.fetchEvents(id: id))
             .subscribe { [weak self] (event:Result<Response<[Event]>,Error>) in
                 guard let self = self else { return }
                 guard let presenter = presenter else { return }

@@ -261,9 +261,11 @@ extension DetailsViewController {
         let interactor = DetailsInteractor()
         let presenter = DetailsPresenter()
         let router = DetailsRouter()
+        let repo = DetailsRepository()
         viewController.interactor = interactor
         viewController.router = router
         interactor.presenter = presenter
+        interactor.repo = repo
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataStore = interactor

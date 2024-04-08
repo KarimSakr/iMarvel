@@ -61,6 +61,7 @@
 		7FF103582BC3F70D00E97CDD /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF103532BC3F70D00E97CDD /* LoginInteractor.swift */; };
 		7FF1035B2BC4020200E97CDD /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF1035A2BC4020200E97CDD /* Persistence.swift */; };
 		7FF1035D2BC40A5F00E97CDD /* HomeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF1035C2BC40A5F00E97CDD /* HomeRepository.swift */; };
+		7FF103602BC40F4800E97CDD /* DetailsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF1035F2BC40F4800E97CDD /* DetailsRepository.swift */; };
 		EF0A0CEF2BC1632A00348D8C /* SnackBar in Frameworks */ = {isa = PBXBuildFile; productRef = EF0A0CEE2BC1632A00348D8C /* SnackBar */; };
 		EF0A0CF22BC1635300348D8C /* AppSnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0A0CF12BC1635300348D8C /* AppSnackBar.swift */; };
 /* End PBXBuildFile section */
@@ -113,6 +114,7 @@
 		7FF103532BC3F70D00E97CDD /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		7FF1035A2BC4020200E97CDD /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		7FF1035C2BC40A5F00E97CDD /* HomeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRepository.swift; sourceTree = "<group>"; };
+		7FF1035F2BC40F4800E97CDD /* DetailsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsRepository.swift; sourceTree = "<group>"; };
 		EF0A0CF12BC1635300348D8C /* AppSnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSnackBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -314,6 +316,7 @@
 				7FD9920A2BC171F100AC62B9 /* DetailsModels.swift */,
 				7FD9920B2BC171F100AC62B9 /* DetailsViewController.swift */,
 				7FD9920C2BC171F100AC62B9 /* DetailsInteractor.swift */,
+				7FF1035F2BC40F4800E97CDD /* DetailsRepository.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -493,6 +496,7 @@
 				7F1AFB902BBF0AC0000DA23A /* APIClient.swift in Sources */,
 				7F1AFBA52BBF3430000DA23A /* Urls.swift in Sources */,
 				7FF1035B2BC4020200E97CDD /* Persistence.swift in Sources */,
+				7FF103602BC40F4800E97CDD /* DetailsRepository.swift in Sources */,
 				7F1AFB872BBF083E000DA23A /* HomeRouter.swift in Sources */,
 				7FD992112BC171F100AC62B9 /* DetailsInteractor.swift in Sources */,
 				7FF1035D2BC40A5F00E97CDD /* HomeRepository.swift in Sources */,
