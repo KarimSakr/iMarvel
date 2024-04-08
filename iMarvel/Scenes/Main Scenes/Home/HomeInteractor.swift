@@ -29,6 +29,10 @@ protocol HomeBusinessLogic {
     
     func getCharacters() -> [HomeModels.ViewModels.Character]
     
+    func isUserLoggedIn() -> Bool
+    
+    func logOut()
+    
 }
 
 protocol HomeDataStore {
@@ -124,5 +128,13 @@ class HomeInteractor: HomeBusinessLogic, HomeDataStore {
         fetchCharacterList(skip: 0, limit: 20) {
             completion()
         }
+    }
+    
+    func isUserLoggedIn() -> Bool {
+        return Persistence.shared.getData(key: Constants.PersistenceKeys.isUserLoggedIn) as? Bool ?? false
+    }
+    
+    func logOut() {
+        Persistence.shared.save(key: Constants.PersistenceKeys.isUserLoggedIn, object: false)
     }
 }
