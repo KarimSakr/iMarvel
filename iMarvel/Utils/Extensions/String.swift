@@ -8,6 +8,7 @@
 import Foundation
 import CommonCrypto
 
+//MARK: - encryption
 extension String {
     
     var md5: String {
@@ -20,5 +21,14 @@ extension String {
         }
         
         return digest.map { String(format: "%02hhx", $0) }.joined()
+    }
+}
+
+//MARK: - email verification
+extension String {
+    func isEmailValid() -> Bool {
+        let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+        return predicate.evaluate(with: self)
     }
 }

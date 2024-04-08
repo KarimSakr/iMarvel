@@ -41,4 +41,11 @@ class HomeRouter: NSObject, HomeRoutingLogic, HomeDataPassing {
 
     }
     
+    func goToLoginScreen() {
+        guard let viewController = viewController else { return }
+        let loginVC = LoginViewController()
+        loginVC.modalPresentationStyle = .fullScreen
+        viewController.present(loginVC, animated: false)
+    }
+    
 }
